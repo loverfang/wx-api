@@ -3,7 +3,7 @@ spring:
         type: com.alibaba.druid.pool.DruidDataSource
         druid:
             driver-class-name: com.mysql.cj.jdbc.Driver
-            url: jdbc:mysql://localhost:3306/wx?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+            url: jdbc:mysql://192.168.133.18:3306/wx?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
             username: root
             password: 123456
             initial-size: 10
@@ -32,12 +32,13 @@ spring:
                 wall:
                     config:
                         multi-statement-allow: true
+
 ## 微信公众号配置
 wx:
     mp:
         configs:
-            -   appid:
-                secret:
+            -   appid: wxc2286ef880c612cf
+                secret: 7ee5b882332199c2ffd2056cef1cf493
                 token: my_weixin_token_
                 aesKey:
     pay:

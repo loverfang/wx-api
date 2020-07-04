@@ -17,7 +17,7 @@ import java.util.List;
  * @author Mark sunlightcs@gmail.com
  */
 @Mapper
-@CacheNamespace(flushInterval = 300000L)//缓存五分钟过期
+@CacheNamespace(flushInterval = 300000L) //缓存五分钟过期
 public interface SysUserDao extends BaseMapper<SysUserEntity> {
 
     /**
