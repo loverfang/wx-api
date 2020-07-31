@@ -33,11 +33,11 @@ public class ChannelController {
         List<CmsChannelEntity> channelList = cmsChannelService.loadChannelTree();
 
         //  添加顶级栏目
-        //  CmsChannelEntity root = new CmsChannelEntity();
-        //  root.setChannelId(0);
-        //  root.setChannelName("所有栏目");
-        //  root.setParentId(-1);
-        //  channelList.add(root);
+        CmsChannelEntity root = new CmsChannelEntity();
+        root.setChannelId(0);
+        root.setChannelName("顶级栏目");
+        root.setParentId(-1);
+        channelList.add(root);
 
         return R.ok().put("channelList", channelList);
     }
@@ -54,4 +54,6 @@ public class ChannelController {
 
         return R.ok().put("channelInfo", channelInfo);
     }
+
+    public R new new
 }
