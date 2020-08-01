@@ -47,21 +47,21 @@ public class CmsChannelServiceImpl extends ServiceImpl<CmsChannelMapper, CmsChan
     @Transactional(rollbackFor=Exception.class)
     public int addChannel(CmsChannelEntity cmsChannelEntity) {
         // 插入栏目表
-        cmsChannelMapper.insert( cmsChannelEntity );
-        int channelId = cmsChannelEntity.getChannelId();
-
-        CmsChannelExtEntity cmsChannelExtEntity = new CmsChannelExtEntity();
-        cmsChannelExtEntity.setChannelId(channelId);
-        cmsChannelExtEntity.setAllowScore(0);
-        cmsChannelExtEntity.setAllowShare(0);
-        // 初始栏目属性表
-        cmsChannelExtMapper.insert(cmsChannelExtEntity);
-
-        CmsChannelTxtEntity cmsChannelTxtEntity = new CmsChannelTxtEntity();
-        cmsChannelTxtEntity.setChannelId(channelId);
-        // 初始栏目文本表
-        cmsChannelTxtMapper.insert(cmsChannelTxtEntity);
-        return channelId;
+        return cmsChannelMapper.insert( cmsChannelEntity );
+//        int channelId = cmsChannelEntity.getChannelId();
+//
+//        CmsChannelExtEntity cmsChannelExtEntity = new CmsChannelExtEntity();
+//        cmsChannelExtEntity.setChannelId(channelId);
+//        cmsChannelExtEntity.setAllowScore(0);
+//        cmsChannelExtEntity.setAllowShare(0);
+//        // 初始栏目属性表
+//        cmsChannelExtMapper.insert(cmsChannelExtEntity);
+//
+//        CmsChannelTxtEntity cmsChannelTxtEntity = new CmsChannelTxtEntity();
+//        cmsChannelTxtEntity.setChannelId(channelId);
+//        // 初始栏目文本表
+//        cmsChannelTxtMapper.insert(cmsChannelTxtEntity);
+//        return channelId;
     }
 
     @Override
