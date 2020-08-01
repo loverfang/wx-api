@@ -2,6 +2,7 @@ package com.github.niefy.modules.cms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.niefy.modules.cms.entity.CmsChannelEntity;
+import com.github.niefy.modules.cms.entity.CmsChannelExtEntity;
 
 import java.util.List;
 
@@ -19,5 +20,31 @@ public interface CmsChannelService extends IService<CmsChannelEntity> {
      */
     List<CmsChannelEntity> loadChannelTree();
 
+    /**
+     * 加载栏目详情
+     * @param channelId
+     * @return
+     */
+    CmsChannelEntity loadChannelDetail(Integer channelId);
 
+    /**
+     * 添加栏目
+     * @param cmsChannelEntity
+     * @return
+     */
+    int addChannel(CmsChannelEntity cmsChannelEntity);
+
+    /**
+     * 更新栏目
+     * @param cmsChannelEntity
+     * @return
+     */
+    void updateChannel(CmsChannelEntity cmsChannelEntity, CmsChannelExtEntity cmsChannelExt);
+
+    /**
+     * 修改栏目属性
+     * @param cmsChannelEntity
+     * @return
+     */
+    int updateChannelStatus(CmsChannelEntity cmsChannelEntity);
 }

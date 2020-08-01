@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.niefy.modules.cms.dao.CmsChannelMapper">
+
+    <cache-ref namespace="com.github.niefy.modules.cms.dao.CmsChannelMapper"/>
+
+    <resultMap id="channelDetailMap" type="com.github.niefy.modules.cms.entity.CmsChannelEntity">
+        <result column="channel_id" property="channelId"/>
+        <result column="channel_name" property="channelName"/>
+        <result column="model_id" property="modelId"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="channel_path" property="channelPath"/>
+        <result column="priority" property="priority"/>
+        <result column="status" property="status"/>
+        <result column="is_display" property="isDisplay"/>
+
+        <result column="title" property="ext.title"/>
+        <result column="keywords" property="ext.keywords"/>
+        <result column="description" property="ext.description"/>
+        <result column="link" property="ext.link"/>
+        <result column="channel_pc_path" property="ext.channelPcPath"/>
+        <result column="channel_pc_content_path" property="ext.channelPcContentPath"/>
+        <result column="channel_mobile_path" property="ext.channelMobilePath"/>
+        <result column="channel_mobile_content_path" property="ext.channelMobileContentPath"/>
+        <result column="is_blank" property="ext.isBlank"/>
+        <result column="allow_share" property="ext.allowShare"/>
+        <result column="allow_score" property="ext.allowScore"/>
+
+        <result column="txt" property="txt.txt"/>
+        <result column="txt1" property="txt.txt1"/>
+        <result column="txt2" property="txt.txt2"/>
+        <result column="txt3" property="txt.txt3"/>
+        <result column="txt4" property="txt.txt4"/>
+    </resultMap>
+
+    <select id="loadChannelDetail" resultMap="channelDetailMap" parameterType="java.lang.Integer">
+        select
+          c.channel_id,
+          c.channel_name,
+          c.model_id,
+          c.parent_id,
+          c.channel_path,
+          c.priority,
+          c.status,
+          c.is_display,
+
+          e.title,
+          e.keywords,
+          e.description,
+          e.link,
+          e.channel_pc_path,
+          e.channel_pc_content_path,
+          e.channel_mobile_path,
+          e.channel_mobile_content_path,
+          e.is_blank,
+          e.allow_share,
+          e.allow_score,
+
+          t.txt,
+          t.txt1,
+          t.txt2,
+          t.txt3,
+          t.txt4
+        from cms_channel as c
+          inner join cms_channel_ext as e on e.channel_id = c.channel_id
+          inner join cms_channel_txt as t on t.channel_id = c.channel_id
+        where c.channel_id = #{channelId}
+    </select>
+
+</mapper>

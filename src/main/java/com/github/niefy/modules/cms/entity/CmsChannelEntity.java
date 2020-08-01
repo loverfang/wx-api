@@ -1,5 +1,6 @@
 package com.github.niefy.modules.cms.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -18,24 +19,32 @@ import java.util.List;
  */
 @Data
 @TableName("cms_channel")
-public class CmsChannelEntity   implements Serializable {
-    @TableId
-    private Integer channelId;  //'栏目ID',
+public class CmsChannelEntity implements Serializable {
+    @TableId(value="channel_id", type=IdType.AUTO)
+    private Integer channelId;
     @NotBlank(message = "栏目名称不能为空")
-    private String channelName; // '栏目名称',
-    private Integer modelId; // '模型ID',
-    private Integer parentId; //' 父栏目ID',
-    private String channelPath; // '访问路径',
-    private Integer priority; //' 排列顺序',
-    private Integer isDisplay;// '是否显示(0：否，1：是)',
+    private String channelName;
+    private Integer modelId;
+    private Integer parentId;
+    private String channelPath;
+    private Integer priority;
+    private Integer isDisplay;
+    private Integer status;
+
+    /**栏目扩展属性*/
+    @TableField(exist = false)
+    private CmsChannelExtEntity ext;
+    /**栏目扩展内容*/
+    @TableField(exist = false)
+    private CmsChannelTxtEntity txt;
 
 
-
-    @TableField(exist = false) // 表示不是数据库字段
+    private List<CmsChannelBannerEntity> bannerList;
+    /**子栏目*/
+    @TableField(exist = false)
     private List<?> list;
 
-    public CmsChannelEntity() {
-    }
+    public CmsChannelEntity() { }
 
     public CmsChannelEntity(Integer channelId, @NotBlank(message = "栏目名称不能为空") String channelName, Integer modelId, Integer parentId, String channelPath, Integer priority, Integer isDisplay) {
         this.channelId = channelId;
@@ -46,6 +55,5 @@ public class CmsChannelEntity   implements Serializable {
         this.priority = priority;
         this.isDisplay = isDisplay;
     }
-
 
 }
