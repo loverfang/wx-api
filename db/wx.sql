@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50729
 File Encoding         : 65001
 
-Date: 2020-08-01 10:56:57
+Date: 2020-08-04 08:16:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -46,12 +46,13 @@ CREATE TABLE `article` (
 -- ----------------------------
 DROP TABLE IF EXISTS `cms_channel`;
 CREATE TABLE `cms_channel` (
-  `channel_id` varchar(64) NOT NULL COMMENT '栏目ID',
+  `channel_id` bigint(64) NOT NULL,
   `channel_name` varchar(100) NOT NULL COMMENT '栏目名称',
-  `model_id` varchar(64) NOT NULL COMMENT '模型ID',
-  `parent_id` varchar(64) DEFAULT NULL COMMENT '父栏目ID',
+  `model_id` bigint(11) NOT NULL COMMENT '模型ID',
+  `parent_id` bigint(11) DEFAULT NULL COMMENT '父栏目ID',
   `channel_path` varchar(50) DEFAULT NULL COMMENT '访问路径',
   `priority` int(11) NOT NULL COMMENT '排列顺序',
+  `status` int(11) DEFAULT NULL,
   `is_display` int(11) NOT NULL DEFAULT '1' COMMENT '是否显示(0：否，1：是)',
   PRIMARY KEY (`channel_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -59,33 +60,15 @@ CREATE TABLE `cms_channel` (
 -- ----------------------------
 -- Records of cms_channel
 -- ----------------------------
-INSERT INTO `cms_channel` VALUES ('1', '关于冠中', '1', '0', null, '1', '1');
-INSERT INTO `cms_channel` VALUES ('11', '公司介绍', '1', '1', null, '1', '1');
-INSERT INTO `cms_channel` VALUES ('12', '企业文化', '1', '1', null, '2', '1');
-INSERT INTO `cms_channel` VALUES ('2', '主营业务', '1', '0', null, '2', '1');
-INSERT INTO `cms_channel` VALUES ('21', '人力派遣', '1', '2', null, '1', '1');
-INSERT INTO `cms_channel` VALUES ('22', '人事代理', '1', '2', null, '2', '1');
-INSERT INTO `cms_channel` VALUES ('23', '招聘求职', '1', '2', null, '3', '1');
-INSERT INTO `cms_channel` VALUES ('24', '劳务咨询', '1', '2', null, '4', '1');
-INSERT INTO `cms_channel` VALUES ('3', '服务中心', '1', '0', null, '3', '1');
-INSERT INTO `cms_channel` VALUES ('31', '社保查询', '1', '3', null, '1', '1');
-INSERT INTO `cms_channel` VALUES ('32', '公积金查询', '1', '3', null, '2', '1');
-INSERT INTO `cms_channel` VALUES ('4', '政策咨询', '1', '0', null, '4', '1');
-INSERT INTO `cms_channel` VALUES ('41', '办事流程', '1', '4', null, '1', '1');
-INSERT INTO `cms_channel` VALUES ('42', '法律法规', '1', '4', null, '2', '1');
-INSERT INTO `cms_channel` VALUES ('421', '法律法规', '1', '42', null, '1', '1');
-INSERT INTO `cms_channel` VALUES ('422', '规章制度', '1', '42', null, '2', '1');
-INSERT INTO `cms_channel` VALUES ('5', '人才中心', '1', '0', null, '5', '1');
-INSERT INTO `cms_channel` VALUES ('51', '人才招聘', '1', '5', null, '1', '1');
-INSERT INTO `cms_channel` VALUES ('52', '人才储备', '1', '5', null, '2', '1');
-INSERT INTO `cms_channel` VALUES ('6', '联系贯中', '1', '0', null, '6', '1');
+INSERT INTO `cms_channel` VALUES ('1', '网站跟栏目', '2', '-1', null, '0', '1', '1');
+INSERT INTO `cms_channel` VALUES ('740110090014556200', '关于贯中', '2', '1', '/baidu.com', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for cms_channel_banner
 -- ----------------------------
 DROP TABLE IF EXISTS `cms_channel_banner`;
 CREATE TABLE `cms_channel_banner` (
-  `channel_id` varchar(64) NOT NULL,
+  `channel_id` bigint(64) NOT NULL,
   `path` varchar(255) DEFAULT NULL COMMENT '图片路径',
   `priority` int(11) DEFAULT NULL COMMENT '展示顺序',
   `link` varchar(255) DEFAULT NULL COMMENT '跳转路径'
@@ -100,7 +83,7 @@ CREATE TABLE `cms_channel_banner` (
 -- ----------------------------
 DROP TABLE IF EXISTS `cms_channel_ext`;
 CREATE TABLE `cms_channel_ext` (
-  `channel_id` varchar(64) NOT NULL,
+  `channel_id` bigint(64) NOT NULL,
   `title` varchar(255) DEFAULT NULL COMMENT 'TITLE',
   `keywords` varchar(255) DEFAULT NULL COMMENT 'KEYWORDS',
   `description` varchar(255) DEFAULT NULL COMMENT 'DESCRIPTION',
@@ -117,13 +100,15 @@ CREATE TABLE `cms_channel_ext` (
 -- ----------------------------
 -- Records of cms_channel_ext
 -- ----------------------------
+INSERT INTO `cms_channel_ext` VALUES ('740108797636247552', null, null, null, null, null, null, null, null, null, '0', '0');
+INSERT INTO `cms_channel_ext` VALUES ('740110090014556160', null, null, null, null, null, null, null, null, null, '0', '0');
 
 -- ----------------------------
 -- Table structure for cms_channel_txt
 -- ----------------------------
 DROP TABLE IF EXISTS `cms_channel_txt`;
 CREATE TABLE `cms_channel_txt` (
-  `channel_id` varchar(64) NOT NULL,
+  `channel_id` bigint(64) NOT NULL,
   `txt` longtext,
   `txt1` longtext,
   `txt2` longtext,
@@ -134,6 +119,8 @@ CREATE TABLE `cms_channel_txt` (
 -- ----------------------------
 -- Records of cms_channel_txt
 -- ----------------------------
+INSERT INTO `cms_channel_txt` VALUES ('740108797636247552', null, null, null, null, null);
+INSERT INTO `cms_channel_txt` VALUES ('740110090014556200', '惺惺惜惺惺', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for cms_content
@@ -313,12 +300,15 @@ CREATE TABLE `sys_captcha` (
 INSERT INTO `sys_captcha` VALUES ('01169834-363a-489a-8f60-28d516885949', '58a6y', '2020-07-03 00:32:59');
 INSERT INTO `sys_captcha` VALUES ('123d251e-e8de-483c-8d77-3192b7c2f153', 'y3exp', '2020-07-28 23:34:49');
 INSERT INTO `sys_captcha` VALUES ('1f2da9e5-1d62-407d-8430-01929ddaf26d', 'y6nmp', '2020-08-01 06:23:31');
+INSERT INTO `sys_captcha` VALUES ('24bbdb5f-90a8-4dba-8458-e617bf4d0225', '2ccnp', '2020-08-02 06:38:08');
 INSERT INTO `sys_captcha` VALUES ('2656e9b0-1fd2-44e1-8e28-5026c382f679', '23xwy', '2020-07-03 23:21:59');
 INSERT INTO `sys_captcha` VALUES ('27dc2536-821b-4007-863f-06cf4e437f7e', 'x7pnn', '2020-07-07 23:48:02');
+INSERT INTO `sys_captcha` VALUES ('404ead1e-3c35-4dc3-822a-09be9c15dbac', 'mwn6e', '2020-08-02 22:49:02');
 INSERT INTO `sys_captcha` VALUES ('47369fd2-95b6-4aa0-8517-e513e603b85a', '6d3cn', '2020-07-08 22:31:51');
 INSERT INTO `sys_captcha` VALUES ('5305c5e4-101f-42cd-8d1b-d34597b1153b', '62mf6', '2020-06-25 23:55:55');
 INSERT INTO `sys_captcha` VALUES ('6fe5e077-89da-494d-8416-2391b23a5d3f', '67p35', '2020-07-28 23:34:27');
 INSERT INTO `sys_captcha` VALUES ('721186e7-3aee-4998-8d49-7eaea81faa3c', '4pbdm', '2020-06-26 16:31:37');
+INSERT INTO `sys_captcha` VALUES ('751e9a8e-89d4-43cc-8deb-2695d3e04b37', 'f8n64', '2020-08-02 06:38:16');
 INSERT INTO `sys_captcha` VALUES ('7dac600f-d401-4a76-8825-a97c8b49935d', 'c7mb4', '2020-06-26 00:01:17');
 INSERT INTO `sys_captcha` VALUES ('867b4690-0345-41b7-83d1-f80ede81055c', 'f7gen', '2020-07-03 23:21:41');
 INSERT INTO `sys_captcha` VALUES ('90df0d26-3990-4a83-8fb1-bf378662356e', 'x27c7', '2020-06-25 23:55:50');
@@ -330,6 +320,7 @@ INSERT INTO `sys_captcha` VALUES ('d80aae8a-0a2f-452e-8166-38006b4e53b9', 'nmwxw
 INSERT INTO `sys_captcha` VALUES ('e12ae113-6fa8-41cb-8f74-04fc89af4751', 'y8ane', '2020-06-25 23:55:54');
 INSERT INTO `sys_captcha` VALUES ('e4aa947b-044c-40db-8f0e-82821c840762', 'ppxw4', '2020-07-03 00:33:20');
 INSERT INTO `sys_captcha` VALUES ('f872a8ca-c92a-44cb-8e4b-75c10e527cfd', 'fn26e', '2020-06-25 23:51:04');
+INSERT INTO `sys_captcha` VALUES ('fccf76a8-274c-404c-8653-7dcb8d720b0b', '44a6a', '2020-08-02 22:49:07');
 INSERT INTO `sys_captcha` VALUES ('ffdf3b32-cab0-4bf5-8dbf-255b183c5734', '6e7n3', '2020-07-09 21:50:29');
 
 -- ----------------------------
@@ -570,7 +561,7 @@ CREATE TABLE `sys_user_token` (
 -- ----------------------------
 -- Records of sys_user_token
 -- ----------------------------
-INSERT INTO `sys_user_token` VALUES ('1', 'd0bdb4837fca537529cbb32574d1bc3a', '2020-08-01 18:18:51', '2020-08-01 06:18:51');
+INSERT INTO `sys_user_token` VALUES ('1', '96dbf2dbbd171573df4fae20635d1bd3', '2020-08-04 09:03:46', '2020-08-03 21:03:46');
 
 -- ----------------------------
 -- Table structure for template_msg_log
