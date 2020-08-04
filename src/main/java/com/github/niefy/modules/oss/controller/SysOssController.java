@@ -20,14 +20,12 @@ import com.github.niefy.modules.oss.cloud.OSSFactory;
 import com.github.niefy.modules.oss.entity.SysOssEntity;
 import com.github.niefy.modules.oss.service.SysOssService;
 import com.github.niefy.modules.sys.service.SysConfigService;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 文件上传
@@ -103,19 +101,57 @@ public class SysOssController {
             throw new RRException("上传文件不能为空");
         }
 
-        //上传文件
-        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+        // 文件名称
+        String fileName = file.getOriginalFilename();
+
+        // 文件后缀
+        String suffix = fileName.substring( fileName.lastIndexOf(".") );
         String url = OSSFactory.build().uploadSuffix(file.getBytes(), suffix);
 
         //保存文件信息
         SysOssEntity ossEntity = new SysOssEntity();
-        ossEntity.setUrl(url);
+        ossEntity.setFileName(fileName);
+        ossEntity.setFileSize(file.getSize() / 1024f);
+        ossEntity.setFilePath(url);
         ossEntity.setCreateDate(new Date());
-        sysOssService.save(ossEntity);
 
-        return R.ok().put("url", url);
+        return R.ok().put("file", ossEntity);
     }
 
+    /**
+     * 上传图片文件七牛云
+     * @param files
+     * @return
+     */
+    @RequestMapping(value="/files", method = RequestMethod.POST)
+    @RequiresPermissions("sys:oss:all")
+    public R upload(@RequestParam("file") MultipartFile[] files) throws Exception {
+
+        if(ArrayUtils.isEmpty(files)){
+            throw new RRException("上传文件不能为空");
+        }
+
+        List<SysOssEntity> list = new LinkedList<>();
+
+        for (int i = 0; i < files.length; i++) {
+            MultipartFile file = files[i];
+            // 文件名称
+            String fileName = file.getOriginalFilename();
+            // 文件后缀
+            String suffix = fileName.substring( fileName.lastIndexOf(".") );
+            String url = OSSFactory.build().uploadSuffix(file.getBytes(), suffix);
+
+            //保存文件信息
+            SysOssEntity ossEntity = new SysOssEntity();
+            ossEntity.setFileName(fileName);
+            ossEntity.setFileSize(file.getSize() / 1024f);
+            ossEntity.setFilePath(url);
+            ossEntity.setCreateDate(new Date());
+            list.add(ossEntity);
+        }
+
+        return R.ok().put("files", list);
+    }
 
     /**
      * 删除
@@ -124,7 +160,6 @@ public class SysOssController {
     @RequiresPermissions("sys:oss:all")
     public R delete(@RequestBody Long[] ids) {
         sysOssService.removeByIds(Arrays.asList(ids));
-
         return R.ok();
     }
 

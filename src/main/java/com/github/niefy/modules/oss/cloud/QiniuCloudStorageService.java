@@ -11,15 +11,22 @@ import com.qiniu.storage.Configuration;
 import com.qiniu.storage.Region;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 七牛云存储
  * @author Mark sunlightcs@gmail.com
  */
+@Slf4j
 public class QiniuCloudStorageService extends CloudStorageService {
     private UploadManager uploadManager;
     private String token;
@@ -70,4 +77,5 @@ public class QiniuCloudStorageService extends CloudStorageService {
     public String uploadSuffix(InputStream inputStream, String suffix) {
         return upload(inputStream, getPath(config.getQiniuPrefix(), suffix));
     }
+
 }

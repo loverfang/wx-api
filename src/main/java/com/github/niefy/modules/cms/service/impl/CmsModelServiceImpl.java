@@ -20,7 +20,7 @@ import java.util.Map;
  * @Date 2020/6/260:58
  * @Version 1.0
  */
-@Service("CmsModelService")
+@Service("cmsModelService")
 public class CmsModelServiceImpl extends ServiceImpl<CmsModelMapper, CmsModelEntity> implements CmsModelService {
 
     @Override

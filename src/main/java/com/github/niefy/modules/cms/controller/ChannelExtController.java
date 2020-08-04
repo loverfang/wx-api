@@ -3,13 +3,19 @@ package com.github.niefy.modules.cms.controller;
 import com.github.niefy.common.utils.R;
 import com.github.niefy.modules.cms.entity.CmsChannelExtEntity;
 import com.github.niefy.modules.cms.entity.CmsChannelTxtEntity;
+import com.github.niefy.modules.cms.service.CmsChannelExtService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 @Slf4j
 @RestController
 @RequestMapping("/cms/channelExt")
 public class ChannelExtController {
+
+    @Resource
+    private CmsChannelExtService cmsChannelExtService;
 
     /**
      * 修改栏目属性
@@ -18,7 +24,7 @@ public class ChannelExtController {
      */
     @PostMapping("/updateChannelExt")
     public R updateChannelExt(@RequestBody CmsChannelExtEntity cmsChannelExt){
-
+        cmsChannelExtService.updateChannelExt(cmsChannelExt);
         return R.ok();
     }
 
@@ -28,9 +34,8 @@ public class ChannelExtController {
      * @return
      */
     @GetMapping("/loadChannelExtDetail")
-    public R loadChannelExtDetail(Integer channelId){
-        log.info("channelId:{}",channelId);
-        return R.ok().put("channelExt", null);
+    public R loadChannelExtDetail(Long channelId){
+        return R.ok().put("channelExt", cmsChannelExtService.loadChannelExt( channelId ));
     }
 
 }

@@ -22,7 +22,7 @@ import java.util.List;
  * @Date 2020/7/50:28
  * @Version 1.0
  */
-@Service("CmsChannelService")
+@Service("cmsChannelService")
 public class CmsChannelServiceImpl extends ServiceImpl<CmsChannelMapper, CmsChannelEntity> implements CmsChannelService {
 
     @Resource
@@ -66,10 +66,10 @@ public class CmsChannelServiceImpl extends ServiceImpl<CmsChannelMapper, CmsChan
 
     @Override
     @Transactional(rollbackFor=Exception.class)
-    public void updateChannel(CmsChannelEntity cmsChannelEntity, CmsChannelExtEntity cmsChannelExt) {
+    public void updateChannel(CmsChannelEntity cmsChannelEntity) {
         cmsChannelMapper.updateById(cmsChannelEntity);
-        cmsChannelExtMapper.updateById(cmsChannelEntity.getExt());
         cmsChannelTxtMapper.updateById(cmsChannelEntity.getTxt());
+        cmsChannelExtMapper.updateById(cmsChannelEntity.getExt());
     }
 
     @Override

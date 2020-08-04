@@ -39,7 +39,7 @@ public interface CmsChannelService extends IService<CmsChannelEntity> {
      * @param cmsChannelEntity
      * @return
      */
-    void updateChannel(CmsChannelEntity cmsChannelEntity, CmsChannelExtEntity cmsChannelExt);
+    void updateChannel(CmsChannelEntity cmsChannelEntity);
 
     /**
      * 修改栏目属性

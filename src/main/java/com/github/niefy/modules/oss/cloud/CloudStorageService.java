@@ -7,9 +7,12 @@ package com.github.niefy.modules.oss.cloud;
 
 import com.github.niefy.common.utils.DateUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -17,6 +20,7 @@ import java.util.UUID;
  * @author Mark sunlightcs@gmail.com
  */
 public abstract class CloudStorageService {
+
     /** 云存储配置信息 */
     CloudStorageConfig config;
 
