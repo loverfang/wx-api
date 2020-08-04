@@ -2,8 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.github.niefy.modules.cms.dao.CmsChannelMapper">
 
-    <cache-ref namespace="com.github.niefy.modules.cms.dao.CmsChannelMapper"/>
-
     <resultMap id="channelDetailMap" type="com.github.niefy.modules.cms.entity.CmsChannelEntity">
         <result column="channel_id" property="channelId"/>
         <result column="channel_name" property="channelName"/>
@@ -33,7 +31,7 @@
         <result column="txt4" property="txt.txt4"/>
     </resultMap>
 
-    <select id="loadChannelDetail" resultMap="channelDetailMap" parameterType="java.lang.Integer">
+    <select id="loadChannelDetail" resultMap="channelDetailMap">
         select
           c.channel_id,
           c.channel_name,
@@ -62,8 +60,8 @@
           t.txt3,
           t.txt4
         from cms_channel as c
-          inner join cms_channel_ext as e on e.channel_id = c.channel_id
-          inner join cms_channel_txt as t on t.channel_id = c.channel_id
+          left join cms_channel_ext as e on e.channel_id = c.channel_id
+          left join cms_channel_txt as t on t.channel_id = c.channel_id
         where c.channel_id = #{channelId}
     </select>
 

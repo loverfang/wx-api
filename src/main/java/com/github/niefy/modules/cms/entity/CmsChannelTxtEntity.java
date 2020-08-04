@@ -20,7 +20,7 @@ import java.util.List;
 @Data
 @TableName("cms_channel_txt")
 public class CmsChannelTxtEntity implements Serializable {
-    private Integer channelId;
+    private Long channelId;
     private String txt;
     private String txt1;
     private String txt2;
@@ -29,7 +29,7 @@ public class CmsChannelTxtEntity implements Serializable {
 
     public CmsChannelTxtEntity() { }
 
-    public CmsChannelTxtEntity(Integer channelId, String txt, String txt1, String txt2, String txt3, String txt4) {
+    public CmsChannelTxtEntity(Long channelId, String txt, String txt1, String txt2, String txt3, String txt4) {
         this.channelId = channelId;
         this.txt = txt;
         this.txt1 = txt1;

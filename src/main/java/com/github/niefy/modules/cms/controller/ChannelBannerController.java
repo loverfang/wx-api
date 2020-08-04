@@ -21,8 +21,8 @@ public class ChannelBannerController {
      */
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
-        PageUtils page = sysUserService.queryPage(params);
-        return R.ok().put("page", page);
+        //PageUtils page = sysUserService.queryPage(params);
+        return R.ok().put("page", null);
     }
 
     /**

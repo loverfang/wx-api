@@ -20,12 +20,13 @@ import java.util.List;
 @Data
 @TableName("cms_channel")
 public class CmsChannelEntity implements Serializable {
-    @TableId(value="channel_id", type=IdType.AUTO)
-    private Integer channelId;
+    @TableId(value="channel_id", type=IdType.INPUT)
+    private Long channelId;
     @NotBlank(message = "栏目名称不能为空")
     private String channelName;
-    private Integer modelId;
-    private Integer parentId;
+    private Long modelId;
+    private Long parentId;
+
     private String channelPath;
     private Integer priority;
     private Integer isDisplay;
@@ -38,7 +39,7 @@ public class CmsChannelEntity implements Serializable {
     @TableField(exist = false)
     private CmsChannelTxtEntity txt;
 
-
+    @TableField(exist = false)
     private List<CmsChannelBannerEntity> bannerList;
     /**子栏目*/
     @TableField(exist = false)
@@ -46,7 +47,7 @@ public class CmsChannelEntity implements Serializable {
 
     public CmsChannelEntity() { }
 
-    public CmsChannelEntity(Integer channelId, @NotBlank(message = "栏目名称不能为空") String channelName, Integer modelId, Integer parentId, String channelPath, Integer priority, Integer isDisplay) {
+    public CmsChannelEntity(Long channelId, @NotBlank(message = "栏目名称不能为空") String channelName, Long modelId, Long parentId, String channelPath, Integer priority, Integer isDisplay) {
         this.channelId = channelId;
         this.channelName = channelName;
         this.modelId = modelId;

@@ -25,7 +25,7 @@ public interface CmsChannelService extends IService<CmsChannelEntity> {
      * @param channelId
      * @return
      */
-    CmsChannelEntity loadChannelDetail(Integer channelId);
+    CmsChannelEntity loadChannelDetail(Long channelId);
 
     /**
      * 添加栏目

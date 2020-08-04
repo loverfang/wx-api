@@ -39,7 +39,7 @@ public class CmsChannelServiceImpl extends ServiceImpl<CmsChannelMapper, CmsChan
     }
 
     @Override
-    public CmsChannelEntity loadChannelDetail(Integer channelId) {
+    public CmsChannelEntity loadChannelDetail(Long channelId) {
         return cmsChannelMapper.loadChannelDetail(channelId);
     }
 
@@ -47,21 +47,21 @@ public class CmsChannelServiceImpl extends ServiceImpl<CmsChannelMapper, CmsChan
     @Transactional(rollbackFor=Exception.class)
     public int addChannel(CmsChannelEntity cmsChannelEntity) {
         // 插入栏目表
-        return cmsChannelMapper.insert( cmsChannelEntity );
-//        int channelId = cmsChannelEntity.getChannelId();
-//
-//        CmsChannelExtEntity cmsChannelExtEntity = new CmsChannelExtEntity();
-//        cmsChannelExtEntity.setChannelId(channelId);
-//        cmsChannelExtEntity.setAllowScore(0);
-//        cmsChannelExtEntity.setAllowShare(0);
-//        // 初始栏目属性表
-//        cmsChannelExtMapper.insert(cmsChannelExtEntity);
-//
-//        CmsChannelTxtEntity cmsChannelTxtEntity = new CmsChannelTxtEntity();
-//        cmsChannelTxtEntity.setChannelId(channelId);
-//        // 初始栏目文本表
-//        cmsChannelTxtMapper.insert(cmsChannelTxtEntity);
-//        return channelId;
+        int insertResult = cmsChannelMapper.insert( cmsChannelEntity );
+
+        CmsChannelExtEntity cmsChannelExtEntity = new CmsChannelExtEntity();
+        cmsChannelExtEntity.setChannelId(cmsChannelEntity.getChannelId());
+        cmsChannelExtEntity.setAllowScore(0);
+        cmsChannelExtEntity.setAllowShare(0);
+        // 初始栏目属性表
+        cmsChannelExtMapper.insert(cmsChannelExtEntity);
+
+        CmsChannelTxtEntity cmsChannelTxtEntity = new CmsChannelTxtEntity();
+        cmsChannelTxtEntity.setChannelId(cmsChannelEntity.getChannelId());
+
+        // 初始栏目文本表
+        cmsChannelTxtMapper.insert(cmsChannelTxtEntity);
+        return insertResult;
     }
 
     @Override

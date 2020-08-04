@@ -18,7 +18,8 @@ import java.io.Serializable;
 @TableName("cms_model")
 public class CmsModelEntity  implements Serializable {
     @TableId
-    private Integer modelId;
+    private Long modelId;
+
     @NotBlank(message = "模型名称不能为空")
     private String modelName; //'模型名称,如新闻，视频，图片，单页等',
     private String modelPath;//'模型路径',
@@ -32,10 +33,9 @@ public class CmsModelEntity  implements Serializable {
     private Integer isDisabled;//'是否禁用(0:是，1否)',
     private Integer isDef;// '是否是默认的模型（0否，1是，默认0）',
 
-    public CmsModelEntity() {
-    }
+    public CmsModelEntity() { }
 
-    public CmsModelEntity(Integer modelId, String modelName, String modelPath, String modelContentPath, Integer titleImgWidth, Integer titleImgHeight, Integer contentImgWidth, Integer contentImgHeight, Integer priority, Integer viewStyle, Integer isDisabled, Integer isDef) {
+    public CmsModelEntity(Long modelId, String modelName, String modelPath, String modelContentPath, Integer titleImgWidth, Integer titleImgHeight, Integer contentImgWidth, Integer contentImgHeight, Integer priority, Integer viewStyle, Integer isDisabled, Integer isDef) {
         this.modelId = modelId;
         this.modelName = modelName;
         this.modelPath = modelPath;

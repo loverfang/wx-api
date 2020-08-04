@@ -15,14 +15,14 @@ import java.io.Serializable;
 @Data
 @TableName("cms_channel_banner")
 public class CmsChannelBannerEntity implements Serializable {
-    private Integer channelId;
+    private Long channelId;
     private String path;
     private String link;
     private Integer priority;
 
     public CmsChannelBannerEntity() { }
 
-    public CmsChannelBannerEntity(Integer channelId, String path, Integer priority, String link) {
+    public CmsChannelBannerEntity(Long channelId, String path, Integer priority, String link) {
         this.channelId = channelId;
         this.path = path;
         this.priority = priority;

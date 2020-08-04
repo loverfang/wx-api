@@ -1,6 +1,7 @@
 package com.github.niefy.modules.cms.controller;
 
 import com.github.niefy.common.utils.R;
+import com.github.niefy.common.utils.SnowflakeIdWorker;
 import com.github.niefy.modules.cms.entity.CmsChannelEntity;
 import com.github.niefy.modules.cms.entity.CmsChannelExtEntity;
 import com.github.niefy.modules.cms.service.CmsChannelService;
@@ -31,12 +32,13 @@ public class ChannelController {
     @GetMapping("/loadChannelTree")
     public R loadChannelTree(){
         List<CmsChannelEntity> channelList = cmsChannelService.loadChannelTree();
-        // 添加顶级栏目
-        CmsChannelEntity root = new CmsChannelEntity();
-        root.setChannelId(0);
-        root.setChannelName("顶级栏目");
-        root.setParentId(-1);
-        channelList.add(root);
+
+//        // 添加顶级栏目
+//        CmsChannelEntity root = new CmsChannelEntity();
+//        root.setChannelId(0);
+//        root.setChannelName("顶级栏目");
+//        root.setParentId(-1);
+//        channelList.add(root);
         return R.ok().put("channelList", channelList);
     }
 
@@ -46,9 +48,10 @@ public class ChannelController {
      * @return
      */
     @GetMapping("/loadChannelDetail")
-    public R loadChannelDetail(Integer channelId){
+    public R loadChannelDetail(Long channelId){
         log.info("channelId:{}",channelId);
-        return R.ok().put("channelInfo", cmsChannelService.loadChannelDetail(channelId));
+        CmsChannelEntity  cmsChannelEntity= cmsChannelService.loadChannelDetail(channelId);
+        return R.ok().put("channelInfo", cmsChannelEntity  );
     }
 
     /**
@@ -59,6 +62,7 @@ public class ChannelController {
     @PostMapping("/addChannel")
     public R addChannel(@RequestBody CmsChannelEntity cmsChannel){
         cmsChannel.setStatus(1);
+        cmsChannel.setChannelId( SnowflakeIdWorker.getSnowflakeId() );
         cmsChannelService.addChannel(cmsChannel);
         return R.ok();
     }

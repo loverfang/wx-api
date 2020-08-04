@@ -37,15 +37,15 @@ public class ModelController {
         List<CmsModelEntity> modelList = new ArrayList<>();
 
         CmsModelEntity entity1 = new CmsModelEntity();
-        entity1.setModelId(1);
+        entity1.setModelId(1L);
         entity1.setModelName("单页");
 
         CmsModelEntity entity2 = new CmsModelEntity();
-        entity2.setModelId(2);
+        entity2.setModelId(2L);
         entity2.setModelName("新闻列表");
 
         CmsModelEntity entity3 = new CmsModelEntity();
-        entity3.setModelId(3);
+        entity3.setModelId(3L);
         entity3.setModelName("图片列表");
 
         modelList.add(entity1);

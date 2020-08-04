@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Data
 @TableName("cms_channel_ext")
 public class CmsChannelExtEntity implements Serializable {
-    private Integer channelId;
+    private Long channelId;
     private String title;
     private String keywords;
     private String description;
@@ -23,7 +23,7 @@ public class CmsChannelExtEntity implements Serializable {
 
     public CmsChannelExtEntity() { }
 
-    public CmsChannelExtEntity(Integer channelId, String title, String keywords, String description, String link, String channelPcPath, String channelPcContentPath, String channelMobilePath, String channelMobileContentPath, String isBlank, Integer allowShare, Integer allowScore) {
+    public CmsChannelExtEntity(Long channelId, String title, String keywords, String description, String link, String channelPcPath, String channelPcContentPath, String channelMobilePath, String channelMobileContentPath, String isBlank, Integer allowShare, Integer allowScore) {
         this.channelId = channelId;
         this.title = title;
         this.keywords = keywords;
