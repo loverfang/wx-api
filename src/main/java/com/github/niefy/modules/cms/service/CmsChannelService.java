@@ -47,4 +47,11 @@ public interface CmsChannelService extends IService<CmsChannelEntity> {
      * @return
      */
     int updateChannelStatus(CmsChannelEntity cmsChannelEntity);
+
+    /**
+     * 获得指定栏目下的所有子孙节点
+     * @param channelId
+     * @return
+     */
+    List<Long> loadAllChildAndgrandchilds(Long channelId);
 }

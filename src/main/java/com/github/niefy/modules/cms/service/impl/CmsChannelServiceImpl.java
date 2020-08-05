@@ -9,11 +9,14 @@ import com.github.niefy.modules.cms.entity.CmsChannelEntity;
 import com.github.niefy.modules.cms.entity.CmsChannelExtEntity;
 import com.github.niefy.modules.cms.entity.CmsChannelTxtEntity;
 import com.github.niefy.modules.cms.service.CmsChannelService;
+import org.apache.shiro.crypto.hash.Hash;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName CmsChannelServiceImpl
@@ -69,11 +72,24 @@ public class CmsChannelServiceImpl extends ServiceImpl<CmsChannelMapper, CmsChan
     public void updateChannel(CmsChannelEntity cmsChannelEntity) {
         cmsChannelMapper.updateById(cmsChannelEntity);
         cmsChannelTxtMapper.updateById(cmsChannelEntity.getTxt());
-        cmsChannelExtMapper.updateById(cmsChannelEntity.getExt());
+        // cmsChannelExtMapper.updateById(cmsChannelEntity.getExt());
     }
 
     @Override
     public int updateChannelStatus(CmsChannelEntity cmsChannelEntity) {
-        return cmsChannelMapper.updateById(cmsChannelEntity);
+        List<Long> childsChannelId = cmsChannelMapper.loadAllChildAndGrandchilds(cmsChannelEntity.getChannelId());
+        // 加入当前节点
+        childsChannelId.add(cmsChannelEntity.getChannelId());
+
+        // 批量修改菜单的状态
+        Map<String,Object> updateStatusParamMap = new HashMap<String,Object>();
+        updateStatusParamMap.put("status",cmsChannelEntity.getStatus());
+        updateStatusParamMap.put("channelIds",childsChannelId);
+        return cmsChannelMapper.batchUpdateStatusByIdList(updateStatusParamMap);
+    }
+
+    @Override
+    public List<Long> loadAllChildAndgrandchilds(Long channelId) {
+        return cmsChannelMapper.loadAllChildAndGrandchilds( channelId );
     }
 }

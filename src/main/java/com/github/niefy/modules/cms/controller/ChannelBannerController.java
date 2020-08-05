@@ -1,39 +1,41 @@
 package com.github.niefy.modules.cms.controller;
 
-import com.github.niefy.common.utils.Constant;
 import com.github.niefy.common.utils.PageUtils;
 import com.github.niefy.common.utils.R;
 import com.github.niefy.modules.cms.entity.CmsChannelBannerEntity;
-import com.github.niefy.modules.cms.entity.CmsChannelExtEntity;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.github.niefy.modules.cms.service.CmsChannelBannerService;
 import org.springframework.web.bind.annotation.*;
-
+import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
 @RequestMapping("/cms/channelBanner")
 public class ChannelBannerController {
 
+    @Resource
+    CmsChannelBannerService cmsChannelBannerService;
+
     /**
-     * 查询指定栏目下的所有Banner列表
+     * 指定栏目的Banner列表
      */
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
-        //PageUtils page = sysUserService.queryPage(params);
-        return R.ok().put("page", null);
+        PageUtils page = cmsChannelBannerService.queryPage(params);
+        return R.ok().put("page", page);
     }
 
     /**
      * 新增栏目Banner
-     * @param cmsChannelBanner
+     * @param bannerList
      * @return
      */
     @PostMapping("/addChannelBanner")
-    public R addChannelBanner(@RequestBody CmsChannelBannerEntity cmsChannelBanner){
-
-        return R.ok();
+    public R addChannelBanner(@RequestBody List<CmsChannelBannerEntity> bannerList){
+        int addResult = cmsChannelBannerService.batchInsertBanner( bannerList );
+        return R.ok().put("data", addResult);
     }
 
     /**
@@ -43,29 +45,31 @@ public class ChannelBannerController {
      */
     @PostMapping("/updateChannelBanner")
     public R updateChannelBanner(@RequestBody CmsChannelBannerEntity cmsChannelBanner){
-
-        return R.ok();
+        int updateResult = cmsChannelBannerService.updateChannelBanner( cmsChannelBanner );
+        return R.ok().put("data", updateResult);
     }
 
     /**
-     * 加载栏目属性详情
-     * @param channelId
+     * 加载Banner详情
+     * @param bannerId
      * @return
      */
     @GetMapping("/loadChannelBannerDetail")
-    public R loadChannelBannerDetail(Integer channelId){
-        log.info("channelId:{}",channelId);
-        return R.ok().put("channelBanner", null);
+    public R loadChannelBannerDetail(Long bannerId){
+        log.info("bannerId:{}",bannerId);
+        CmsChannelBannerEntity cmsChannelBannerEntity = cmsChannelBannerService.selectByBannerId(bannerId);
+        return R.ok().put("data", cmsChannelBannerEntity);
     }
 
     /**
-     * 加载栏目属性详情
-     * @param cmsChannelBanner
+     * 批量删除选择的Banner
+     * @param bannerIds
      * @return
      */
     @PostMapping("/deleteChannelBanner")
-    public R deleteChannelBanner(@RequestBody CmsChannelBannerEntity cmsChannelBanner){
-        log.info("channelId:{}",cmsChannelBanner);
+    public R deleteChannelBanner(@RequestBody List<Long> bannerIds){
+        log.info("channelId:{}",bannerIds);
+        cmsChannelBannerService.batchDeleteBanners(bannerIds);
         return R.ok().put("channelBanner", null);
     }
 

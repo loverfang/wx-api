@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.niefy.modules.cms.dao.CmsChannelBannerMapper">
+
+    <insert id="batchInsertBanner" parameterType="java.util.List">
+        insert into user_word_importance_practice (channel_id, path, priority, link)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.channelId},#{item.path},#{item.priority},#{item.link})
+        </foreach>
+    </insert>
+
+</mapper>

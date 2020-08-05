@@ -65,4 +65,37 @@
         where c.channel_id = #{channelId}
     </select>
 
+    <select id="loadAllChildAndGrandchilds" parameterType="java.lang.Long" resultType="java.lang.Long">
+        select t3.channel_id from (
+            select
+            t1.channel_id,
+            if(find_in_set(parent_id, @pids) > 0, @pids := concat(@pids, ',', channel_id), 0) as ischild
+            from (
+                select
+                    channel_id,parent_id
+                from
+                    cms_channel t
+                where t.status = 1
+                order by parent_id, channel_id
+            ) t1,
+            (select @pids := 0) t2
+        ) t3
+        where t3.ischild != '0'
+    </select>
+
+    <update id="batchUpdateStatusByIdList" parameterType="java.util.Map">
+        update cms_channel
+        <trim prefix="set" suffixOverrides=",">
+          <if test="statusParamMap.status !=null">
+              status = #{statusParamMap.status}
+          </if>
+        </trim>
+        <where>
+            channel_id in
+            <foreach collection="statusParamMap.channelIds" separator="," item="item" open="(" close=")">
+                #{item}
+            </foreach>
+        </where>
+    </update>
+
 </mapper>
