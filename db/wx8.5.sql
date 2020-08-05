@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 虚拟机18
+Source Server         : 18
 Source Server Version : 50729
-Source Host           : 192.168.133.18:3306
+Source Host           : 192.168.89.18:3306
 Source Database       : wx
 
 Target Server Type    : MYSQL
 Target Server Version : 50729
 File Encoding         : 65001
 
-Date: 2020-08-04 08:16:52
+Date: 2020-08-05 16:39:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -42,33 +42,74 @@ CREATE TABLE `article` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for cms_category
+-- ----------------------------
+DROP TABLE IF EXISTS `cms_category`;
+CREATE TABLE `cms_category` (
+  `category_id` bigint(32) NOT NULL,
+  `category_name` varchar(200) NOT NULL,
+  `parent_id` bigint(32) NOT NULL,
+  `priority` int(11) NOT NULL DEFAULT '0' COMMENT '显示顺序',
+  `remark` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`category_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of cms_category
+-- ----------------------------
+INSERT INTO `cms_category` VALUES ('1', '白菜', '0', '1', '白菜信息');
+
+-- ----------------------------
 -- Table structure for cms_channel
 -- ----------------------------
 DROP TABLE IF EXISTS `cms_channel`;
 CREATE TABLE `cms_channel` (
-  `channel_id` bigint(64) NOT NULL,
+  `channel_id` bigint(32) NOT NULL AUTO_INCREMENT COMMENT '栏目ID',
   `channel_name` varchar(100) NOT NULL COMMENT '栏目名称',
-  `model_id` bigint(11) NOT NULL COMMENT '模型ID',
-  `parent_id` bigint(11) DEFAULT NULL COMMENT '父栏目ID',
+  `model_id` bigint(32) NOT NULL COMMENT '模型ID',
+  `parent_id` bigint(32) DEFAULT NULL COMMENT '父栏目ID',
   `channel_path` varchar(50) DEFAULT NULL COMMENT '访问路径',
   `priority` int(11) NOT NULL COMMENT '排列顺序',
-  `status` int(11) DEFAULT NULL,
+  `status` int(11) DEFAULT '1' COMMENT '栏目状态(-1:永久删除，0:已删除，1:正常，默认1)',
   `is_display` int(11) NOT NULL DEFAULT '1' COMMENT '是否显示(0：否，1：是)',
   PRIMARY KEY (`channel_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=433 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of cms_channel
 -- ----------------------------
-INSERT INTO `cms_channel` VALUES ('1', '网站跟栏目', '2', '-1', null, '0', '1', '1');
-INSERT INTO `cms_channel` VALUES ('740110090014556200', '关于贯中', '2', '1', '/baidu.com', '1', '1', '1');
+INSERT INTO `cms_channel` VALUES ('1', '关于冠中', '1', '0', null, '1', null, '1');
+INSERT INTO `cms_channel` VALUES ('2', '主营业务', '1', '0', null, '2', null, '1');
+INSERT INTO `cms_channel` VALUES ('3', '服务中心', '1', '0', null, '3', null, '1');
+INSERT INTO `cms_channel` VALUES ('4', '政策咨询', '1', '0', null, '4', null, '1');
+INSERT INTO `cms_channel` VALUES ('5', '人才中心', '1', '0', null, '5', null, '1');
+INSERT INTO `cms_channel` VALUES ('6', '联系贯中', '1', '0', null, '6', null, '1');
+INSERT INTO `cms_channel` VALUES ('11', '公司介绍', '1', '1', null, '1', null, '1');
+INSERT INTO `cms_channel` VALUES ('12', '企业文化', '1', '1', null, '2', null, '1');
+INSERT INTO `cms_channel` VALUES ('21', '人力派遣', '1', '2', null, '1', null, '1');
+INSERT INTO `cms_channel` VALUES ('22', '人事代理', '1', '2', null, '2', null, '1');
+INSERT INTO `cms_channel` VALUES ('23', '招聘求职', '1', '2', null, '3', null, '1');
+INSERT INTO `cms_channel` VALUES ('24', '劳务咨询', '1', '2', null, '4', null, '1');
+INSERT INTO `cms_channel` VALUES ('31', '社保查询', '1', '3', null, '1', null, '1');
+INSERT INTO `cms_channel` VALUES ('32', '公积金查询', '1', '3', null, '2', null, '1');
+INSERT INTO `cms_channel` VALUES ('41', '办事流程', '1', '4', null, '1', null, '1');
+INSERT INTO `cms_channel` VALUES ('42', '法律法规', '1', '4', null, '2', null, '1');
+INSERT INTO `cms_channel` VALUES ('51', '人才招聘', '1', '5', null, '1', null, '1');
+INSERT INTO `cms_channel` VALUES ('52', '人才储备', '1', '5', null, '2', null, '1');
+INSERT INTO `cms_channel` VALUES ('421', '法律法规', '1', '42', null, '1', null, '1');
+INSERT INTO `cms_channel` VALUES ('422', '规章制度', '1', '42', null, '2', null, '1');
+INSERT INTO `cms_channel` VALUES ('427', '测试栏目1', '1', '0', 'http://www.baidu.com', '10', '3', '1');
+INSERT INTO `cms_channel` VALUES ('428', '测试栏目1', '1', '0', 'http://www.baidu.com', '10', '3', '1');
+INSERT INTO `cms_channel` VALUES ('429', '测试栏目1', '1', '0', 'http://www.baidu.com', '10', '3', '1');
+INSERT INTO `cms_channel` VALUES ('430', '测试栏目1', '1', '0', 'http://www.baidu.com', '10', '3', '1');
+INSERT INTO `cms_channel` VALUES ('431', '测试栏目1', '1', '0', 'http://www.baidu.com', '10', '3', '1');
 
 -- ----------------------------
 -- Table structure for cms_channel_banner
 -- ----------------------------
 DROP TABLE IF EXISTS `cms_channel_banner`;
 CREATE TABLE `cms_channel_banner` (
-  `channel_id` bigint(64) NOT NULL,
+  `channel_id` bigint(32) NOT NULL,
   `path` varchar(255) DEFAULT NULL COMMENT '图片路径',
   `priority` int(11) DEFAULT NULL COMMENT '展示顺序',
   `link` varchar(255) DEFAULT NULL COMMENT '跳转路径'
@@ -83,7 +124,7 @@ CREATE TABLE `cms_channel_banner` (
 -- ----------------------------
 DROP TABLE IF EXISTS `cms_channel_ext`;
 CREATE TABLE `cms_channel_ext` (
-  `channel_id` bigint(64) NOT NULL,
+  `channel_id` bigint(32) NOT NULL,
   `title` varchar(255) DEFAULT NULL COMMENT 'TITLE',
   `keywords` varchar(255) DEFAULT NULL COMMENT 'KEYWORDS',
   `description` varchar(255) DEFAULT NULL COMMENT 'DESCRIPTION',
@@ -93,22 +134,24 @@ CREATE TABLE `cms_channel_ext` (
   `channel_mobile_path` varchar(255) DEFAULT NULL COMMENT '手机栏目页(页面)',
   `channel_mobile_content_path` varchar(255) DEFAULT NULL COMMENT '手机内容页(页面)',
   `is_blank` varchar(255) DEFAULT NULL COMMENT '是否新窗口打开',
-  `allow_share` int(11) DEFAULT NULL,
-  `allow_score` int(11) DEFAULT '0' COMMENT '评分(1:开放;0:关闭,默认0)'
+  `allow_share` int(11) DEFAULT '0' COMMENT '评分(1:开放;0:关闭,默认0)',
+  `allow_score` int(11) DEFAULT '0' COMMENT '评分(1:开放;0:关闭,默认0)',
+  UNIQUE KEY `index_channel_id` (`channel_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of cms_channel_ext
 -- ----------------------------
-INSERT INTO `cms_channel_ext` VALUES ('740108797636247552', null, null, null, null, null, null, null, null, null, '0', '0');
-INSERT INTO `cms_channel_ext` VALUES ('740110090014556160', null, null, null, null, null, null, null, null, null, '0', '0');
+INSERT INTO `cms_channel_ext` VALUES ('1', null, null, null, null, null, null, null, null, null, '0', '0');
+INSERT INTO `cms_channel_ext` VALUES ('430', '栏目标题', '页面关键字', '页面描述', 'http://www.baidu.com', '/pcpath', '/pcpath/detail', '/mpath', '/mpath/detail', '1', '0', '0');
+INSERT INTO `cms_channel_ext` VALUES ('431', null, null, null, null, null, null, null, null, null, '0', '0');
 
 -- ----------------------------
 -- Table structure for cms_channel_txt
 -- ----------------------------
 DROP TABLE IF EXISTS `cms_channel_txt`;
 CREATE TABLE `cms_channel_txt` (
-  `channel_id` bigint(64) NOT NULL,
+  `channel_id` bigint(32) NOT NULL,
   `txt` longtext,
   `txt1` longtext,
   `txt2` longtext,
@@ -119,20 +162,22 @@ CREATE TABLE `cms_channel_txt` (
 -- ----------------------------
 -- Records of cms_channel_txt
 -- ----------------------------
-INSERT INTO `cms_channel_txt` VALUES ('740108797636247552', null, null, null, null, null);
-INSERT INTO `cms_channel_txt` VALUES ('740110090014556200', '惺惺惜惺惺', null, null, null, null);
+INSERT INTO `cms_channel_txt` VALUES ('1', null, null, null, null, null);
+INSERT INTO `cms_channel_txt` VALUES ('430', null, null, null, null, null);
+INSERT INTO `cms_channel_txt` VALUES ('431', null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for cms_content
 -- ----------------------------
 DROP TABLE IF EXISTS `cms_content`;
 CREATE TABLE `cms_content` (
-  `content_id` varchar(64) NOT NULL,
-  `channel_id` varchar(64) NOT NULL,
-  `type_id` int(11) DEFAULT NULL COMMENT '文章类别(除栏目以外的另一种类别)',
+  `content_id` bigint(32) NOT NULL,
+  `channel_id` bigint(32) NOT NULL,
+  `category_id` bigint(32) DEFAULT NULL COMMENT '文章类别(除栏目以外的另一种类别)',
   `top_level` int(11) DEFAULT NULL COMMENT '置顶级别',
   `has_title_img` int(11) DEFAULT NULL COMMENT '是否有标题图片（0:否，1:是,默认0）',
   `is_recommend` int(11) DEFAULT '0' COMMENT '是否推荐(0:不推荐，1：推荐，默认0)',
+  `priority` int(11) DEFAULT NULL COMMENT '排列顺序',
   `status` int(11) DEFAULT '2' COMMENT '状态(0:草稿;1:审核中;2:审核通过;3:回收站；4:投稿，默认2)',
   `views_day` int(11) DEFAULT NULL COMMENT '日观看量',
   `comments_day` int(11) DEFAULT NULL COMMENT '日评论量',
@@ -144,13 +189,23 @@ CREATE TABLE `cms_content` (
 -- ----------------------------
 -- Records of cms_content
 -- ----------------------------
+INSERT INTO `cms_content` VALUES ('1', '1', '1', '1', '0', '0', '1', '1', '1', '1', '1', '1');
+INSERT INTO `cms_content` VALUES ('2', '1', '1', '1', '0', '0', '1', '1', '1', '1', '1', '1');
+INSERT INTO `cms_content` VALUES ('3', '1', '1', '1', '0', '0', '1', '1', '1', '1', '1', '1');
+INSERT INTO `cms_content` VALUES ('4', '1', '1', '1', '0', '0', '1', '1', '1', '1', '1', '1');
+INSERT INTO `cms_content` VALUES ('5', '1', '1', '1', '0', '0', '1', '1', '1', '1', '1', '1');
+INSERT INTO `cms_content` VALUES ('6', '1', '1', '1', '0', '0', '1', '1', '1', '1', '1', '1');
+INSERT INTO `cms_content` VALUES ('7', '1', '1', '1', '0', '0', '1', '1', '1', '1', '1', '1');
+INSERT INTO `cms_content` VALUES ('8', '1', '1', '1', '0', '0', '1', '1', '1', '1', '1', '1');
+INSERT INTO `cms_content` VALUES ('9', '1', '1', '1', '0', '0', '1', '1', '1', '1', '1', '1');
+INSERT INTO `cms_content` VALUES ('10', '1', '1', '1', '0', '0', '1', '1', '1', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for cms_content_attachment
 -- ----------------------------
 DROP TABLE IF EXISTS `cms_content_attachment`;
 CREATE TABLE `cms_content_attachment` (
-  `content_id` varchar(64) DEFAULT NULL,
+  `content_id` bigint(32) DEFAULT NULL,
   `priority` int(255) DEFAULT NULL COMMENT '显示顺序',
   `attach_path` varchar(200) DEFAULT NULL COMMENT '附件地址',
   `attach_name` varchar(200) DEFAULT NULL COMMENT '附件名称',
@@ -167,9 +222,9 @@ CREATE TABLE `cms_content_attachment` (
 -- ----------------------------
 DROP TABLE IF EXISTS `cms_content_ext`;
 CREATE TABLE `cms_content_ext` (
-  `content_id` varchar(64) DEFAULT NULL,
+  `content_id` bigint(32) DEFAULT NULL,
   `title` varchar(150) DEFAULT NULL COMMENT '标题',
-  `short_ttitle` varchar(150) DEFAULT NULL COMMENT '短标题(副标题)',
+  `short_title` varchar(150) DEFAULT NULL COMMENT '短标题(副标题)',
   `author` varchar(100) DEFAULT NULL COMMENT '作者',
   `origin` varchar(100) DEFAULT NULL COMMENT '来源',
   `origin_url` varchar(255) DEFAULT NULL COMMENT '来源链接',
@@ -186,13 +241,23 @@ CREATE TABLE `cms_content_ext` (
 -- ----------------------------
 -- Records of cms_content_ext
 -- ----------------------------
+INSERT INTO `cms_content_ext` VALUES ('1', '测试文章12', '测试1', '罗中学', null, null, null, null, null, null, null, null, null, '2020-08-05 15:50:07');
+INSERT INTO `cms_content_ext` VALUES ('2', '测试文章1332', '测试2', '罗中学', '', '', '', '', '', '', '', '', '', '2020-08-05 15:50:07');
+INSERT INTO `cms_content_ext` VALUES ('3', '测试文章142', '测试3', '罗中学', '', '', '', '', '', '', '', '', '', '2020-08-05 15:50:07');
+INSERT INTO `cms_content_ext` VALUES ('4', '测试文章15', '测试3', '罗中学', '', '', '', '', '', '', '', '', '', '2020-08-05 15:50:07');
+INSERT INTO `cms_content_ext` VALUES ('5', '测试文章16', '测试4', '罗中学', '', '', '', '', '', '', '', '', '', '2020-08-05 15:50:07');
+INSERT INTO `cms_content_ext` VALUES ('6', '测试文章17', '测试55', '罗中学', '', '', '', '', '', '', '', '', '', '2020-08-05 15:50:07');
+INSERT INTO `cms_content_ext` VALUES ('7', '测试文章18', '测试55', '罗中学', '', '', '', '', '', '', '', '', '', '2020-08-05 15:50:07');
+INSERT INTO `cms_content_ext` VALUES ('8', '测试文章19', '测试6', '罗中学', '', '', '', '', '', '', '', '', '', '2020-08-05 15:50:07');
+INSERT INTO `cms_content_ext` VALUES ('9', '测试文章10', '测试56', '罗中学', '', '', '', '', '', '', '', '', '', '2020-08-05 15:50:07');
+INSERT INTO `cms_content_ext` VALUES ('10', '测试文章122', '测试78', '罗中学', '', '', '', '', '', '', '', '', '', '2020-08-05 15:50:07');
 
 -- ----------------------------
 -- Table structure for cms_content_picture
 -- ----------------------------
 DROP TABLE IF EXISTS `cms_content_picture`;
 CREATE TABLE `cms_content_picture` (
-  `content_id` varchar(64) DEFAULT NULL,
+  `content_id` bigint(32) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL COMMENT '显示顺序',
   `img_path` varchar(200) DEFAULT NULL COMMENT '图片地址',
   `description` varchar(255) DEFAULT NULL COMMENT '图片描述'
@@ -203,11 +268,37 @@ CREATE TABLE `cms_content_picture` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for cms_content_txt
+-- ----------------------------
+DROP TABLE IF EXISTS `cms_content_txt`;
+CREATE TABLE `cms_content_txt` (
+  `content_id` bigint(32) NOT NULL,
+  `txt` longtext,
+  `txt1` longtext,
+  `txt2` longtext,
+  `txt3` longtext
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of cms_content_txt
+-- ----------------------------
+INSERT INTO `cms_content_txt` VALUES ('1', '查询查询自出心裁1111', null, null, null);
+INSERT INTO `cms_content_txt` VALUES ('2', '查询查询自出心裁2222', '', '', '');
+INSERT INTO `cms_content_txt` VALUES ('3', '查询查询自出心裁3333', '', '', '');
+INSERT INTO `cms_content_txt` VALUES ('4', '查询查询自出心裁444', '', '', '');
+INSERT INTO `cms_content_txt` VALUES ('5', '查询查询自出心裁555', '', '', '');
+INSERT INTO `cms_content_txt` VALUES ('6', '查询查询自出心裁666', '', '', '');
+INSERT INTO `cms_content_txt` VALUES ('7', '查询查询自出心裁777', '', '', '');
+INSERT INTO `cms_content_txt` VALUES ('8', '查询查询自出心裁888', '', '', '');
+INSERT INTO `cms_content_txt` VALUES ('9', '查询查询自出心裁999', '', '', '');
+INSERT INTO `cms_content_txt` VALUES ('10', '查询查询自出心裁101010', '', '', '');
+
+-- ----------------------------
 -- Table structure for cms_model
 -- ----------------------------
 DROP TABLE IF EXISTS `cms_model`;
 CREATE TABLE `cms_model` (
-  `model_id` varchar(64) NOT NULL COMMENT '模型ID',
+  `model_id` bigint(32) NOT NULL COMMENT '模型ID',
   `model_name` varchar(50) NOT NULL COMMENT '模型名称,如新闻，视频，图片，单页等',
   `model_path` varchar(200) DEFAULT NULL COMMENT '模型路径',
   `model_content_path` varchar(200) DEFAULT NULL COMMENT '栏目内容对应的路径',
@@ -297,31 +388,10 @@ CREATE TABLE `sys_captcha` (
 -- ----------------------------
 -- Records of sys_captcha
 -- ----------------------------
-INSERT INTO `sys_captcha` VALUES ('01169834-363a-489a-8f60-28d516885949', '58a6y', '2020-07-03 00:32:59');
-INSERT INTO `sys_captcha` VALUES ('123d251e-e8de-483c-8d77-3192b7c2f153', 'y3exp', '2020-07-28 23:34:49');
-INSERT INTO `sys_captcha` VALUES ('1f2da9e5-1d62-407d-8430-01929ddaf26d', 'y6nmp', '2020-08-01 06:23:31');
-INSERT INTO `sys_captcha` VALUES ('24bbdb5f-90a8-4dba-8458-e617bf4d0225', '2ccnp', '2020-08-02 06:38:08');
-INSERT INTO `sys_captcha` VALUES ('2656e9b0-1fd2-44e1-8e28-5026c382f679', '23xwy', '2020-07-03 23:21:59');
-INSERT INTO `sys_captcha` VALUES ('27dc2536-821b-4007-863f-06cf4e437f7e', 'x7pnn', '2020-07-07 23:48:02');
-INSERT INTO `sys_captcha` VALUES ('404ead1e-3c35-4dc3-822a-09be9c15dbac', 'mwn6e', '2020-08-02 22:49:02');
-INSERT INTO `sys_captcha` VALUES ('47369fd2-95b6-4aa0-8517-e513e603b85a', '6d3cn', '2020-07-08 22:31:51');
-INSERT INTO `sys_captcha` VALUES ('5305c5e4-101f-42cd-8d1b-d34597b1153b', '62mf6', '2020-06-25 23:55:55');
-INSERT INTO `sys_captcha` VALUES ('6fe5e077-89da-494d-8416-2391b23a5d3f', '67p35', '2020-07-28 23:34:27');
-INSERT INTO `sys_captcha` VALUES ('721186e7-3aee-4998-8d49-7eaea81faa3c', '4pbdm', '2020-06-26 16:31:37');
-INSERT INTO `sys_captcha` VALUES ('751e9a8e-89d4-43cc-8deb-2695d3e04b37', 'f8n64', '2020-08-02 06:38:16');
-INSERT INTO `sys_captcha` VALUES ('7dac600f-d401-4a76-8825-a97c8b49935d', 'c7mb4', '2020-06-26 00:01:17');
-INSERT INTO `sys_captcha` VALUES ('867b4690-0345-41b7-83d1-f80ede81055c', 'f7gen', '2020-07-03 23:21:41');
-INSERT INTO `sys_captcha` VALUES ('90df0d26-3990-4a83-8fb1-bf378662356e', 'x27c7', '2020-06-25 23:55:50');
-INSERT INTO `sys_captcha` VALUES ('937f4de9-3c88-4765-8d95-b010ea505364', '3gwmc', '2020-07-25 21:23:31');
-INSERT INTO `sys_captcha` VALUES ('b5685edf-8cf0-4923-84a7-10db9ed6440d', '7bym5', '2020-07-08 22:20:45');
-INSERT INTO `sys_captcha` VALUES ('c37a41f8-7670-4a86-880b-c30fe7066ac2', '2fenp', '2020-08-01 06:23:53');
-INSERT INTO `sys_captcha` VALUES ('c631390b-93d9-4ba7-8bf3-9157f952a5fe', 'c7dde', '2020-07-03 00:32:59');
-INSERT INTO `sys_captcha` VALUES ('d80aae8a-0a2f-452e-8166-38006b4e53b9', 'nmwxw', '2020-07-03 00:33:15');
-INSERT INTO `sys_captcha` VALUES ('e12ae113-6fa8-41cb-8f74-04fc89af4751', 'y8ane', '2020-06-25 23:55:54');
-INSERT INTO `sys_captcha` VALUES ('e4aa947b-044c-40db-8f0e-82821c840762', 'ppxw4', '2020-07-03 00:33:20');
-INSERT INTO `sys_captcha` VALUES ('f872a8ca-c92a-44cb-8e4b-75c10e527cfd', 'fn26e', '2020-06-25 23:51:04');
-INSERT INTO `sys_captcha` VALUES ('fccf76a8-274c-404c-8653-7dcb8d720b0b', '44a6a', '2020-08-02 22:49:07');
-INSERT INTO `sys_captcha` VALUES ('ffdf3b32-cab0-4bf5-8dbf-255b183c5734', '6e7n3', '2020-07-09 21:50:29');
+INSERT INTO `sys_captcha` VALUES ('3ae50a73-7a3b-4808-8462-95d9396e7c11', 'w4xam', '2020-06-20 14:31:27');
+INSERT INTO `sys_captcha` VALUES ('4c37d750-e094-4231-8e19-d5a0654e2942', 'abbxp', '2020-06-28 09:10:42');
+INSERT INTO `sys_captcha` VALUES ('66dfe7ea-9220-45e2-894f-cd68fc9f7544', 'nfbw6', '2020-08-03 12:46:23');
+INSERT INTO `sys_captcha` VALUES ('b9036e92-079f-4e8b-8609-ee119be26045', 'ep55b', '2020-08-03 12:46:38');
 
 -- ----------------------------
 -- Table structure for sys_config
@@ -340,7 +410,7 @@ CREATE TABLE `sys_config` (
 -- ----------------------------
 -- Records of sys_config
 -- ----------------------------
-INSERT INTO `sys_config` VALUES ('1', 'CLOUD_STORAGE_CONFIG_KEY', '{\"type\":3,\"qiniuDomain\":\"\",\"qiniuPrefix\":\"\",\"qiniuAccessKey\":\"\",\"qiniuSecretKey\":\"\",\"qiniuBucketName\":\"\",\"aliyunDomain\":\"\",\"aliyunPrefix\":\"\",\"aliyunEndPoint\":\"\",\"aliyunAccessKeyId\":\"\",\"aliyunAccessKeySecret\":\"\",\"aliyunBucketName\":\"\",\"qcloudDomain\":\"\",\"qcloudPrefix\":\"\",\"qcloudAppId\":\"\",\"qcloudSecretId\":\"\",\"qcloudSecretKey\":\"\",\"qcloudBucketName\":\"\",\"qcloudRegion\":\"ap-guangzhou\"}', '0', '云存储配置信息');
+INSERT INTO `sys_config` VALUES ('1', 'CLOUD_STORAGE_CONFIG_KEY', '{\"type\":1,\"qiniuDomain\":\"oss.maingoo.com.cn\",\"qiniuPrefix\":\"\",\"qiniuAccessKey\":\"xyYPytw4k1fpVu-DkkuW8z6MgZev3nD6w9Qa_yv0\",\"qiniuSecretKey\":\"96CtNrXM0esThh4gAKBfqyGFbM9SfIpJYkrzJWlV\",\"qiniuBucketName\":\"maingoo\",\"aliyunDomain\":\"\",\"aliyunPrefix\":\"\",\"aliyunEndPoint\":\"\",\"aliyunAccessKeyId\":\"\",\"aliyunAccessKeySecret\":\"\",\"aliyunBucketName\":\"\",\"qcloudDomain\":\"\",\"qcloudPrefix\":\"\",\"qcloudAppId\":\"\",\"qcloudSecretId\":\"\",\"qcloudSecretKey\":\"\",\"qcloudBucketName\":\"\",\"qcloudRegion\":\"ap-guangzhou\"}', '0', '云存储配置信息');
 
 -- ----------------------------
 -- Table structure for sys_log
@@ -356,27 +426,23 @@ CREATE TABLE `sys_log` (
   `ip` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'IP地址',
   `create_date` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统日志';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统日志';
 
 -- ----------------------------
 -- Records of sys_log
 -- ----------------------------
-INSERT INTO `sys_log` VALUES ('1', 'admin', '保存菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.save()', '[{\"icon\":\"el-icon-eleme\",\"menuId\":1113,\"name\":\"网站管理\",\"orderNum\":3,\"parentId\":0,\"perms\":\"\",\"type\":0,\"url\":\"\"}]', '26', '127.0.0.1', '2020-06-26 00:00:25');
-INSERT INTO `sys_log` VALUES ('2', 'admin', '保存菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.save()', '[{\"icon\":\"\",\"menuId\":1114,\"name\":\"模型管理\",\"orderNum\":1,\"parentId\":1113,\"perms\":\"/cms:model:list\",\"type\":1,\"url\":\"/modelManage\"}]', '13', '127.0.0.1', '2020-06-26 00:02:37');
-INSERT INTO `sys_log` VALUES ('3', 'admin', '保存菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.save()', '[{\"icon\":\"\",\"menuId\":1115,\"name\":\"栏目管理\",\"orderNum\":0,\"parentId\":1113,\"perms\":\"cms:channel:list\",\"type\":1,\"url\":\"/cms/channelManage\"}]', '7', '127.0.0.1', '2020-06-26 00:03:30');
-INSERT INTO `sys_log` VALUES ('4', 'admin', '保存菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.save()', '[{\"icon\":\"\",\"menuId\":1116,\"name\":\"内容管理\",\"orderNum\":0,\"parentId\":1113,\"perms\":\"cms:content:list\",\"type\":1,\"url\":\"/contentManage\"}]', '4', '127.0.0.1', '2020-06-26 00:04:25');
-INSERT INTO `sys_log` VALUES ('5', 'admin', '修改菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.update()', '[{\"icon\":\"el-icon-document-copy\",\"menuId\":7,\"name\":\"内容管理\",\"orderNum\":5,\"parentId\":0,\"perms\":\"\",\"type\":0,\"url\":\"\"}]', '9', '127.0.0.1', '2020-06-26 00:05:00');
-INSERT INTO `sys_log` VALUES ('6', 'admin', '修改菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.update()', '[{\"icon\":\"el-icon-eleme\",\"menuId\":1113,\"name\":\"网站管理\",\"orderNum\":2,\"parentId\":0,\"perms\":\"\",\"type\":0,\"url\":\"\"}]', '7', '127.0.0.1', '2020-06-26 00:05:19');
-INSERT INTO `sys_log` VALUES ('7', 'admin', '保存菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.save()', '[{\"icon\":\"\",\"menuId\":1117,\"name\":\"文章类别管理\",\"orderNum\":0,\"parentId\":1113,\"perms\":\"\",\"type\":1,\"url\":\"/cms/cartergeray\"}]', '8', '127.0.0.1', '2020-06-26 00:07:43');
-INSERT INTO `sys_log` VALUES ('8', 'admin', '修改菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.update()', '[{\"icon\":\"\",\"menuId\":1114,\"name\":\"模型管理\",\"orderNum\":1,\"parentId\":1113,\"perms\":\"cms:model:list\",\"type\":1,\"url\":\"wx/cms/model\"}]', '48', '127.0.0.1', '2020-06-27 11:13:22');
-INSERT INTO `sys_log` VALUES ('9', 'admin', '修改菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.update()', '[{\"icon\":\"\",\"menuId\":1115,\"name\":\"栏目管理\",\"orderNum\":0,\"parentId\":1113,\"perms\":\"cms:channel:list\",\"type\":1,\"url\":\"wx/cms/channel\"}]', '78', '127.0.0.1', '2020-06-27 11:13:49');
-INSERT INTO `sys_log` VALUES ('10', 'admin', '修改菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.update()', '[{\"icon\":\"\",\"menuId\":1116,\"name\":\"内容管理\",\"orderNum\":0,\"parentId\":1113,\"perms\":\"cms:content:list\",\"type\":1,\"url\":\"wx/cms/content\"}]', '139', '127.0.0.1', '2020-06-27 11:14:03');
-INSERT INTO `sys_log` VALUES ('11', 'admin', '修改菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.update()', '[{\"icon\":\"\",\"menuId\":1117,\"name\":\"文章类别管理\",\"orderNum\":0,\"parentId\":1113,\"perms\":\"\",\"type\":1,\"url\":\"wx/cms/category\"}]', '21', '127.0.0.1', '2020-06-27 11:14:48');
-INSERT INTO `sys_log` VALUES ('12', 'admin', '修改菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.update()', '[{\"icon\":\"\",\"menuId\":1117,\"name\":\"文章类别管理\",\"orderNum\":0,\"parentId\":1113,\"perms\":\"cms:category:list\",\"type\":1,\"url\":\"wx/cms/category\"}]', '20', '127.0.0.1', '2020-06-27 11:15:06');
-INSERT INTO `sys_log` VALUES ('13', 'admin', '修改菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.update()', '[{\"icon\":\"\",\"menuId\":1114,\"name\":\"模型管理\",\"orderNum\":1,\"parentId\":1113,\"perms\":\"cms:model:list\",\"type\":1,\"url\":\"cms/model\"}]', '36', '127.0.0.1', '2020-06-27 11:29:09');
-INSERT INTO `sys_log` VALUES ('14', 'admin', '修改菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.update()', '[{\"icon\":\"\",\"menuId\":1115,\"name\":\"栏目管理\",\"orderNum\":0,\"parentId\":1113,\"perms\":\"cms:channel:list\",\"type\":1,\"url\":\"cms/channel\"}]', '33', '127.0.0.1', '2020-06-27 11:29:40');
-INSERT INTO `sys_log` VALUES ('15', 'admin', '修改菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.update()', '[{\"icon\":\"\",\"menuId\":1116,\"name\":\"内容管理\",\"orderNum\":0,\"parentId\":1113,\"perms\":\"cms:content:list\",\"type\":1,\"url\":\"cms/content\"}]', '39', '127.0.0.1', '2020-06-27 11:29:47');
-INSERT INTO `sys_log` VALUES ('16', 'admin', '修改菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.update()', '[{\"icon\":\"\",\"menuId\":1117,\"name\":\"文章类别管理\",\"orderNum\":0,\"parentId\":1113,\"perms\":\"cms:category:list\",\"type\":1,\"url\":\"cms/category\"}]', '22', '127.0.0.1', '2020-06-27 11:29:54');
+INSERT INTO `sys_log` VALUES ('1', 'admin', '保存菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.save()', '[{\"icon\":\"的的\",\"menuId\":1113,\"name\":\"网站管理\",\"orderNum\":0,\"parentId\":0,\"perms\":\"\",\"type\":1,\"url\":\"/sitemenu\"}]', '44', '127.0.0.1', '2020-06-24 14:57:21');
+INSERT INTO `sys_log` VALUES ('2', 'admin', '修改菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.update()', '[{\"icon\":\"的的\",\"menuId\":1113,\"name\":\"网站管理\",\"orderNum\":0,\"parentId\":0,\"perms\":\"\",\"type\":1,\"url\":\"/sitemenu\"}]', '8', '127.0.0.1', '2020-06-24 14:58:16');
+INSERT INTO `sys_log` VALUES ('3', 'admin', '修改菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.update()', '[{\"icon\":\"的的\",\"menuId\":1113,\"name\":\"网站管理\",\"orderNum\":0,\"parentId\":0,\"perms\":\"\",\"type\":0,\"url\":\"/sitemenu\"}]', '5', '127.0.0.1', '2020-06-24 14:59:16');
+INSERT INTO `sys_log` VALUES ('4', 'admin', '保存菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.save()', '[{\"icon\":\"\",\"menuId\":1114,\"name\":\"栏目管理\",\"orderNum\":0,\"parentId\":1113,\"perms\":\"\",\"type\":1,\"url\":\"/sitemenu\"}]', '5', '127.0.0.1', '2020-06-24 14:59:54');
+INSERT INTO `sys_log` VALUES ('5', 'admin', '保存菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.save()', '[{\"icon\":\"\",\"menuId\":1115,\"name\":\"内容管理\",\"orderNum\":0,\"parentId\":1113,\"perms\":\"\",\"type\":1,\"url\":\"/sitemenu\"}]', '4', '127.0.0.1', '2020-06-24 15:00:10');
+INSERT INTO `sys_log` VALUES ('6', 'admin', '修改菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.update()', '[{\"icon\":\"el-icon-eleme\",\"menuId\":1113,\"name\":\"网站管理\",\"orderNum\":0,\"parentId\":0,\"perms\":\"\",\"type\":0,\"url\":\"\"}]', '13', '127.0.0.1', '2020-06-24 15:03:54');
+INSERT INTO `sys_log` VALUES ('7', 'admin', '保存菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.save()', '[{\"icon\":\"\",\"menuId\":1116,\"name\":\"栏目模型\",\"orderNum\":0,\"parentId\":1113,\"perms\":\"\",\"type\":1,\"url\":\"/model\"}]', '10', '127.0.0.1', '2020-06-24 16:48:02');
+INSERT INTO `sys_log` VALUES ('8', 'admin', '修改菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.update()', '[{\"icon\":\"\",\"menuId\":1116,\"name\":\"栏目模型\",\"orderNum\":1,\"parentId\":1113,\"perms\":\"\",\"type\":1,\"url\":\"/model\"}]', '2', '127.0.0.1', '2020-06-24 16:48:47');
+INSERT INTO `sys_log` VALUES ('9', 'admin', '修改菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.update()', '[{\"icon\":\"\",\"menuId\":1114,\"name\":\"栏目管理\",\"orderNum\":2,\"parentId\":1113,\"perms\":\"\",\"type\":1,\"url\":\"/sitemenu\"}]', '3', '127.0.0.1', '2020-06-24 16:48:53');
+INSERT INTO `sys_log` VALUES ('10', 'admin', '修改菜单', 'com.github.niefy.modules.sys.controller.SysMenuController.update()', '[{\"icon\":\"\",\"menuId\":1115,\"name\":\"内容管理\",\"orderNum\":3,\"parentId\":1113,\"perms\":\"\",\"type\":1,\"url\":\"/sitemenu\"}]', '3', '127.0.0.1', '2020-06-24 16:48:58');
+INSERT INTO `sys_log` VALUES ('11', 'admin', '保存角色', 'com.github.niefy.modules.sys.controller.SysRoleController.save()', '[{\"createTime\":1592990173271,\"createUserId\":1,\"menuIdList\":[1,2,15,16,17,18,3,19,20,21,22,4,23,24,25,26,27,30,6,32,99,34,35,102,1112,66,67,68,69,70,71,72,73,74,75,103,104,105,107,108,109,110,1111,113,114,115,117,7,41,42,43,44,45,9,29,81,85,1113,1114,1115,1116,-666666],\"remark\":\"\",\"roleId\":1,\"roleName\":\"系统管理员\"}]', '663', '127.0.0.1', '2020-06-24 17:16:13');
+INSERT INTO `sys_log` VALUES ('12', 'admin', '修改用户', 'com.github.niefy.modules.sys.controller.SysUserController.update()', '[{\"createUserId\":1,\"email\":\"niefy@qq.com\",\"mobile\":\"16666666666\",\"roleIdList\":[1],\"salt\":\"YzcmCZNvbXocrsz9dm8e\",\"status\":1,\"userId\":1,\"username\":\"admin\"}]', '74', '127.0.0.1', '2020-06-24 17:16:27');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -392,7 +458,7 @@ CREATE TABLE `sys_menu` (
   `icon` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '菜单图标',
   `order_num` int(11) DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1118 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='菜单管理';
+) ENGINE=InnoDB AUTO_INCREMENT=1117 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='菜单管理';
 
 -- ----------------------------
 -- Records of sys_menu
@@ -402,7 +468,7 @@ INSERT INTO `sys_menu` VALUES ('2', '1', '管理员列表', 'sys/user', null, '1
 INSERT INTO `sys_menu` VALUES ('3', '1', '角色管理', 'sys/role', null, '1', 'role', '2');
 INSERT INTO `sys_menu` VALUES ('4', '1', '菜单管理', 'sys/menu', null, '1', 'menu', '3');
 INSERT INTO `sys_menu` VALUES ('6', '0', '微信管理', null, null, '0', 'el-icon-s-promotion', '1');
-INSERT INTO `sys_menu` VALUES ('7', '0', '内容管理', '', '', '0', 'el-icon-document-copy', '5');
+INSERT INTO `sys_menu` VALUES ('7', '0', '内容管理', '', '', '0', 'el-icon-document-copy', '2');
 INSERT INTO `sys_menu` VALUES ('9', '0', '日志报表', '', '', '0', 'el-icon-s-order', '4');
 INSERT INTO `sys_menu` VALUES ('15', '2', '查看', null, 'sys:user:list,sys:user:info', '2', null, '0');
 INSERT INTO `sys_menu` VALUES ('16', '2', '新增', null, 'sys:user:save,sys:role:select', '2', null, '0');
@@ -454,11 +520,10 @@ INSERT INTO `sys_menu` VALUES ('115', '113', '新增', null, 'wx:wxmsg:save', '2
 INSERT INTO `sys_menu` VALUES ('117', '113', '删除', null, 'wx:wxmsg:delete', '2', null, '6');
 INSERT INTO `sys_menu` VALUES ('1111', '108', '同步', null, 'wx:wxuser:save', '2', null, '6');
 INSERT INTO `sys_menu` VALUES ('1112', '34', '删除', '', 'wx:wxassets:delete', '2', '', '0');
-INSERT INTO `sys_menu` VALUES ('1113', '0', '网站管理', '', '', '0', 'el-icon-eleme', '2');
-INSERT INTO `sys_menu` VALUES ('1114', '1113', '模型管理', 'cms/model', 'cms:model:list', '1', '', '1');
-INSERT INTO `sys_menu` VALUES ('1115', '1113', '栏目管理', 'cms/channel', 'cms:channel:list', '1', '', '0');
-INSERT INTO `sys_menu` VALUES ('1116', '1113', '内容管理', 'cms/content', 'cms:content:list', '1', '', '0');
-INSERT INTO `sys_menu` VALUES ('1117', '1113', '文章类别管理', 'cms/category', 'cms:category:list', '1', '', '0');
+INSERT INTO `sys_menu` VALUES ('1113', '0', '网站管理', '', '', '0', 'el-icon-eleme', '0');
+INSERT INTO `sys_menu` VALUES ('1114', '1113', '栏目管理', '/sitemenu', '', '1', '', '2');
+INSERT INTO `sys_menu` VALUES ('1115', '1113', '内容管理', '/sitemenu', '', '1', '', '3');
+INSERT INTO `sys_menu` VALUES ('1116', '1113', '栏目模型', '/model', '', '1', '', '1');
 
 -- ----------------------------
 -- Table structure for sys_oss
@@ -486,11 +551,12 @@ CREATE TABLE `sys_role` (
   `create_user_id` bigint(20) DEFAULT NULL COMMENT '创建者ID',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`role_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='角色';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='角色';
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
+INSERT INTO `sys_role` VALUES ('1', '系统管理员', '', '1', '2020-06-24 17:16:13');
 
 -- ----------------------------
 -- Table structure for sys_role_menu
@@ -501,11 +567,73 @@ CREATE TABLE `sys_role_menu` (
   `role_id` bigint(20) DEFAULT NULL COMMENT '角色ID',
   `menu_id` bigint(20) DEFAULT NULL COMMENT '菜单ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='角色与菜单对应关系';
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='角色与菜单对应关系';
 
 -- ----------------------------
 -- Records of sys_role_menu
 -- ----------------------------
+INSERT INTO `sys_role_menu` VALUES ('1', '1', '1');
+INSERT INTO `sys_role_menu` VALUES ('2', '1', '2');
+INSERT INTO `sys_role_menu` VALUES ('3', '1', '15');
+INSERT INTO `sys_role_menu` VALUES ('4', '1', '16');
+INSERT INTO `sys_role_menu` VALUES ('5', '1', '17');
+INSERT INTO `sys_role_menu` VALUES ('6', '1', '18');
+INSERT INTO `sys_role_menu` VALUES ('7', '1', '3');
+INSERT INTO `sys_role_menu` VALUES ('8', '1', '19');
+INSERT INTO `sys_role_menu` VALUES ('9', '1', '20');
+INSERT INTO `sys_role_menu` VALUES ('10', '1', '21');
+INSERT INTO `sys_role_menu` VALUES ('11', '1', '22');
+INSERT INTO `sys_role_menu` VALUES ('12', '1', '4');
+INSERT INTO `sys_role_menu` VALUES ('13', '1', '23');
+INSERT INTO `sys_role_menu` VALUES ('14', '1', '24');
+INSERT INTO `sys_role_menu` VALUES ('15', '1', '25');
+INSERT INTO `sys_role_menu` VALUES ('16', '1', '26');
+INSERT INTO `sys_role_menu` VALUES ('17', '1', '27');
+INSERT INTO `sys_role_menu` VALUES ('18', '1', '30');
+INSERT INTO `sys_role_menu` VALUES ('19', '1', '6');
+INSERT INTO `sys_role_menu` VALUES ('20', '1', '32');
+INSERT INTO `sys_role_menu` VALUES ('21', '1', '99');
+INSERT INTO `sys_role_menu` VALUES ('22', '1', '34');
+INSERT INTO `sys_role_menu` VALUES ('23', '1', '35');
+INSERT INTO `sys_role_menu` VALUES ('24', '1', '102');
+INSERT INTO `sys_role_menu` VALUES ('25', '1', '1112');
+INSERT INTO `sys_role_menu` VALUES ('26', '1', '66');
+INSERT INTO `sys_role_menu` VALUES ('27', '1', '67');
+INSERT INTO `sys_role_menu` VALUES ('28', '1', '68');
+INSERT INTO `sys_role_menu` VALUES ('29', '1', '69');
+INSERT INTO `sys_role_menu` VALUES ('30', '1', '70');
+INSERT INTO `sys_role_menu` VALUES ('31', '1', '71');
+INSERT INTO `sys_role_menu` VALUES ('32', '1', '72');
+INSERT INTO `sys_role_menu` VALUES ('33', '1', '73');
+INSERT INTO `sys_role_menu` VALUES ('34', '1', '74');
+INSERT INTO `sys_role_menu` VALUES ('35', '1', '75');
+INSERT INTO `sys_role_menu` VALUES ('36', '1', '103');
+INSERT INTO `sys_role_menu` VALUES ('37', '1', '104');
+INSERT INTO `sys_role_menu` VALUES ('38', '1', '105');
+INSERT INTO `sys_role_menu` VALUES ('39', '1', '107');
+INSERT INTO `sys_role_menu` VALUES ('40', '1', '108');
+INSERT INTO `sys_role_menu` VALUES ('41', '1', '109');
+INSERT INTO `sys_role_menu` VALUES ('42', '1', '110');
+INSERT INTO `sys_role_menu` VALUES ('43', '1', '1111');
+INSERT INTO `sys_role_menu` VALUES ('44', '1', '113');
+INSERT INTO `sys_role_menu` VALUES ('45', '1', '114');
+INSERT INTO `sys_role_menu` VALUES ('46', '1', '115');
+INSERT INTO `sys_role_menu` VALUES ('47', '1', '117');
+INSERT INTO `sys_role_menu` VALUES ('48', '1', '7');
+INSERT INTO `sys_role_menu` VALUES ('49', '1', '41');
+INSERT INTO `sys_role_menu` VALUES ('50', '1', '42');
+INSERT INTO `sys_role_menu` VALUES ('51', '1', '43');
+INSERT INTO `sys_role_menu` VALUES ('52', '1', '44');
+INSERT INTO `sys_role_menu` VALUES ('53', '1', '45');
+INSERT INTO `sys_role_menu` VALUES ('54', '1', '9');
+INSERT INTO `sys_role_menu` VALUES ('55', '1', '29');
+INSERT INTO `sys_role_menu` VALUES ('56', '1', '81');
+INSERT INTO `sys_role_menu` VALUES ('57', '1', '85');
+INSERT INTO `sys_role_menu` VALUES ('58', '1', '1113');
+INSERT INTO `sys_role_menu` VALUES ('59', '1', '1114');
+INSERT INTO `sys_role_menu` VALUES ('60', '1', '1115');
+INSERT INTO `sys_role_menu` VALUES ('61', '1', '1116');
+INSERT INTO `sys_role_menu` VALUES ('62', '1', '-666666');
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -539,11 +667,12 @@ CREATE TABLE `sys_user_role` (
   `user_id` bigint(20) DEFAULT NULL COMMENT '用户ID',
   `role_id` bigint(20) DEFAULT NULL COMMENT '角色ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='用户与角色对应关系';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='用户与角色对应关系';
 
 -- ----------------------------
 -- Records of sys_user_role
 -- ----------------------------
+INSERT INTO `sys_user_role` VALUES ('1', '1', '1');
 
 -- ----------------------------
 -- Table structure for sys_user_token
@@ -561,7 +690,7 @@ CREATE TABLE `sys_user_token` (
 -- ----------------------------
 -- Records of sys_user_token
 -- ----------------------------
-INSERT INTO `sys_user_token` VALUES ('1', '96dbf2dbbd171573df4fae20635d1bd3', '2020-08-04 09:03:46', '2020-08-03 21:03:46');
+INSERT INTO `sys_user_token` VALUES ('1', 'a01811f5e18e4d54d7420c2e928a386f', '2020-08-04 01:20:40', '2020-08-03 13:20:40');
 
 -- ----------------------------
 -- Table structure for template_msg_log
@@ -590,7 +719,7 @@ DROP TABLE IF EXISTS `wx_msg`;
 CREATE TABLE `wx_msg` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `openid` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '微信用户ID',
-  `in_out` tinyint(3) unsigned DEFAULT NULL COMMENT '消息方向',
+  `in_out` tinyint(1) unsigned DEFAULT NULL COMMENT '消息方向',
   `msg_type` char(25) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '消息类型',
   `detail` json DEFAULT NULL COMMENT '消息详情',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

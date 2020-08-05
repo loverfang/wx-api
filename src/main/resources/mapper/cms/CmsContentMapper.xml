@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.niefy.modules.cms.dao.CmsContentMapper">
+
+    <select id="queryPage" parameterType="java.util.Map" resultType="java.util.Map">
+        select
+            a.content_id,
+            a.channel_id,
+            a.category_id,
+            a.top_level,
+            a.has_title_img,
+            a.is_recommend,
+            a.priority,
+            a.status,
+
+            c.channel_name,
+            g.category_name,
+            t.txt,
+
+            e.title,
+            e.short_ttitle,
+            e.author,
+            e.origin,
+            e.origin_url,
+            e.title_img,
+            e.link,
+            e.release_date
+        from cms_content as a
+            inner join cms_channel as c on c.channel_id = a.channel_id
+            inner join cms_category as g on g.category_id = a.category_id
+            left join cms_content_txt as t on t.content_id = a.content_id
+            left join cms_content_ext as e on e.content_id = a.content_id
+        <where>
+            <if test="paramMap.title !=null and paramMap.title !=''">
+                and e.title like concat('%',#{paramMap.title},'%')
+            </if>
+            <if test="paramMap.author !=null and paramMap.author !=''">
+                and e.author like concat('%',#{paramMap.author},'%')
+            </if>
+            <if test="paramMap.channelId !=null and paramMap.channelId !=''">
+                and a.channel_id = #{paramMap.channelId}
+            </if>
+        </where>
+        order by top_level desc, priority asc
+    </select>
+
+</mapper>
