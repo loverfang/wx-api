@@ -10,4 +10,8 @@ public interface CmsContentService extends IService<CmsContentEntity> {
 
     PageUtils queryPage(Map<String, Object> params, Integer current, Integer pageSize);
 
+    int addContent(CmsContentEntity cmsContentEntity);
+
+    int updateContent(CmsContentEntity cmsContentEntity);
+
 }

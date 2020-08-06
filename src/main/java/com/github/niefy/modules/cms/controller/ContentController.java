@@ -2,6 +2,7 @@ package com.github.niefy.modules.cms.controller;
 
 import com.github.niefy.common.utils.PageUtils;
 import com.github.niefy.common.utils.R;
+import com.github.niefy.modules.cms.entity.CmsContentEntity;
 import com.github.niefy.modules.cms.service.CmsContentService;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,8 +38,8 @@ public class ContentController {
      * 添加文章
      * @return
      */
-    @PostMapping("/detail")
-    public R detail(){
+    @GetMapping("/detail")
+    public R detail(Long conentId){
 
         return R.ok();
     }
@@ -48,8 +49,8 @@ public class ContentController {
      * @return
      */
     @PostMapping("/add")
-    public R add(){
-
+    public R add(@RequestBody CmsContentEntity cmsContentEntity){
+        int addResult = cmsContentService.addContent(cmsContentEntity);
         return R.ok();
     }
 
@@ -58,8 +59,8 @@ public class ContentController {
      * @return
      */
     @PostMapping("/edit")
-    public R edit(){
-
+    public R edit(@RequestBody CmsContentEntity cmsContentEntity){
+        int updateResult = cmsContentService.updateContent(cmsContentEntity);
         return R.ok();
     }
 
@@ -68,7 +69,7 @@ public class ContentController {
      * @return
      */
     @PostMapping("/delete")
-    public R delete(){
+    public R delete(Long[] congtentIds){
 
         return R.ok();
     }
