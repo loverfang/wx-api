@@ -27,7 +27,7 @@ public class CmsCategoryServiceImpl extends ServiceImpl<CmsCategoryMapper, CmsCa
     }
 
     @Override
-    public int batchDelete(List<Long> bannerIds, Integer status) {
+    public int batchUpdateStatus(List<Long> bannerIds, Integer status) {
         return 0;
     }
 

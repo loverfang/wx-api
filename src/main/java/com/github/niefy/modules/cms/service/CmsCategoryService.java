@@ -36,6 +36,6 @@ public interface CmsCategoryService extends IService<CmsCategoryEntity> {
      * @param bannerIds
      * @return
      */
-    int batchDelete(List<Long> bannerIds, Integer status);
+    int batchUpdateStatus(List<Long> bannerIds, Integer status);
 
 }
