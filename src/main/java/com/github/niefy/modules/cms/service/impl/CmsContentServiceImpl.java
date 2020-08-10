@@ -29,10 +29,8 @@ public class CmsContentServiceImpl extends ServiceImpl<CmsContentMapper, CmsCont
 
     @Override
     public PageUtils queryPage(Map<String, Object> params, Integer current, Integer pageSize) {
-
         // 新建分页
         Page<Map<String,Object>> page =new Page<Map<String,Object>>(current, pageSize);
-
         // 返回结果
         return  new PageUtils(page.setRecords(cmsContentMapper.queryPage(page,  params)));
     }

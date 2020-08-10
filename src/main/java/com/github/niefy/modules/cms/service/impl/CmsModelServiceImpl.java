@@ -11,6 +11,9 @@ import com.github.niefy.modules.cms.service.CmsModelService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,18 +26,39 @@ import java.util.Map;
 @Service("cmsModelService")
 public class CmsModelServiceImpl extends ServiceImpl<CmsModelMapper, CmsModelEntity> implements CmsModelService {
 
+    @Resource
+    CmsModelMapper cmsModelMapper;
+
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        String paramKey = (String) params.get("paramKey");
+        String modelName = (String) params.get("modelName");
 
         IPage<CmsModelEntity> page = this.page(
                 new Query<CmsModelEntity>().getPage(params),
                 new QueryWrapper<CmsModelEntity>()
-                        .like(StringUtils.isNotBlank(paramKey), "param_key", paramKey)
-                        .eq("status", 1)
+                        .like(StringUtils.isNotBlank(modelName), "model_name", modelName)
+                        .eq("is_disabled", 1)
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public int add(CmsModelEntity cmsModelEntity) {
+        return this.baseMapper.insert( cmsModelEntity );
+    }
+
+    @Override
+    public int update(CmsModelEntity cmsModelEntity) {
+        return this.baseMapper.updateById(cmsModelEntity);
+    }
+
+    @Override
+    public int batchDelete(List<Long> modelIds,Integer status) {
+        Map<String,Object> paramMap = new HashMap<>();
+        paramMap.put("status",status);
+        paramMap.put("modelIds", modelIds);
+        return cmsModelMapper.batchUpdateIsDisplay( paramMap );
     }
 
 }

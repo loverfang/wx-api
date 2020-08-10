@@ -27,11 +27,10 @@ public class ContentController {
      */
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
-        Integer current = params.get("current")==null?1:Integer.valueOf((String)params.get("current"));
-        Integer pageSize = params.get("pageSize")==null?1:Integer.valueOf((String)params.get("pageSize"));
-
-        PageUtils page = cmsContentService.queryPage(params, current, pageSize);
-        return R.ok().put("page", page);
+        Integer page = params.get("page")==null?1:Integer.valueOf((String)params.get("page"));
+        Integer limit = params.get("limit")==null?1:Integer.valueOf((String)params.get("limit"));
+        PageUtils pageUtils = cmsContentService.queryPage(params, page, limit);
+        return R.ok().put("page", pageUtils);
     }
 
     /**
@@ -70,7 +69,6 @@ public class ContentController {
      */
     @PostMapping("/delete")
     public R delete(Long[] congtentIds){
-
         return R.ok();
     }
 

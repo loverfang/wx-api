@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.niefy.modules.cms.dao.CmsModelMapper">
+
+    <update id="batchUpdateIsDisplay" parameterType="java.util.Map">
+        update cms_model
+        <trim prefix="set" suffixOverrides=",">
+            <if test="paramMap.status !=null">
+                is_disabled = #{paramMap.status}
+            </if>
+        </trim>
+        <where>
+            model_id in
+            <foreach collection="paramMap.modelIds" separator="," item="item" open="(" close=")">
+                #{item}
+            </foreach>
+        </where>
+    </update>
+
+</mapper>
