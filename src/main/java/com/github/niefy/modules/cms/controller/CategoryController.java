@@ -4,7 +4,6 @@ import com.github.niefy.common.utils.PageUtils;
 import com.github.niefy.common.utils.R;
 import com.github.niefy.common.utils.SnowflakeIdWorker;
 import com.github.niefy.modules.cms.entity.CmsCategoryEntity;
-import com.github.niefy.modules.cms.entity.CmsModelEntity;
 import com.github.niefy.modules.cms.service.CmsCategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +18,26 @@ public class CategoryController {
 
     private CmsCategoryService cmsCategoryService;
 
+    /**
+     * 类别第一层分页查询
+     * @param params
+     * @return
+     */
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
-        PageUtils page =  cmsCategoryService.queryPage(params);
+        PageUtils page = cmsCategoryService.queryPage(params);
         return R.ok().put("page", page);
+    }
+
+    @GetMapping("/childList")
+    public R childList(Long parentId) {
+        List<CmsCategoryEntity> childList = cmsCategoryService.childList(parentId);
+        return R.ok().put("childList", childList);
+    }
+
+    @PostMapping("/detail")
+    public R detail(Long categoryId){
+        return R.ok().put("data",cmsCategoryService.detail(categoryId));
     }
 
     @PostMapping("/add")

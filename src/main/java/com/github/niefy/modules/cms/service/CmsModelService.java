@@ -44,4 +44,5 @@ public interface CmsModelService  extends IService<CmsModelEntity> {
      */
     int batchDelete(List<Long> bannerIds, Integer status);
 
+    CmsModelEntity detail(Long modelId);
 }

@@ -61,4 +61,8 @@ public class CmsModelServiceImpl extends ServiceImpl<CmsModelMapper, CmsModelEnt
         return cmsModelMapper.batchUpdateIsDisplay( paramMap );
     }
 
+    @Override
+    public CmsModelEntity detail(Long modelId) {
+        return this.baseMapper.selectById( modelId );
+    }
 }

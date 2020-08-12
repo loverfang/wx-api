@@ -35,6 +35,12 @@ public class ModelController {
         return R.ok().put("page", page);
     }
 
+    @GetMapping("/detail")
+    public R add(Long modelId){
+        cmsModelService.detail(modelId);
+        return R.ok();
+    }
+
     @PostMapping("/add")
     public R add(@RequestBody CmsModelEntity cmsModel){
         cmsModel.setModelId(SnowflakeIdWorker.getSnowflakeId());

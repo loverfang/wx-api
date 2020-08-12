@@ -28,8 +28,8 @@ public class ChannelController {
      * 加载所有栏目列表
      * @return
      */
-    @GetMapping("/loadChannelTree")
-    public R loadChannelTree(){
+    @GetMapping("/treeList")
+    public R treeList(){
         List<CmsChannelEntity> channelList = cmsChannelService.loadChannelTree();
         return R.ok().put("channelList", channelList);
     }
@@ -39,8 +39,8 @@ public class ChannelController {
      * @param channelId
      * @return
      */
-    @GetMapping("/loadChannelDetail")
-    public R loadChannelDetail(Long channelId){
+    @GetMapping("/detail")
+    public R detail(Long channelId){
         log.info("channelId:{}",channelId);
         CmsChannelEntity  cmsChannelEntity= cmsChannelService.loadChannelDetail(channelId);
         return R.ok().put("channelInfo", cmsChannelEntity  );
@@ -51,8 +51,8 @@ public class ChannelController {
      * @param cmsChannel
      * @return
      */
-    @PostMapping("/addChannel")
-    public R addChannel(@RequestBody CmsChannelEntity cmsChannel){
+    @PostMapping("/add")
+    public R add(@RequestBody CmsChannelEntity cmsChannel){
         cmsChannel.setStatus(1);
         cmsChannel.setChannelId( SnowflakeIdWorker.getSnowflakeId() );
         cmsChannelService.addChannel(cmsChannel);
@@ -64,8 +64,8 @@ public class ChannelController {
      * @param cmsChannel
      * @return
      */
-    @PostMapping("/updateChannel")
-    public R updateChannel(@RequestBody CmsChannelEntity cmsChannel){
+    @PostMapping("/update")
+    public R update(@RequestBody CmsChannelEntity cmsChannel){
         cmsChannelService.updateChannel(cmsChannel);
         return R.ok();
     }
@@ -75,7 +75,7 @@ public class ChannelController {
      * @param cmsChannel
      * @return
      */
-    @PostMapping("/deleteChannel")
+    @PostMapping("/detail")
     public R deleteChannel(@RequestBody CmsChannelEntity cmsChannel){
         CmsChannelEntity cmsChannelEntity = new CmsChannelEntity();
         cmsChannelEntity.setStatus(cmsChannel.getStatus());

@@ -38,4 +38,12 @@ public interface CmsCategoryService extends IService<CmsCategoryEntity> {
      */
     int batchUpdateStatus(List<Long> bannerIds, Integer status);
 
+    /**
+     * 根据id查询其子类别
+     * @param parentId
+     * @return
+     */
+    List<CmsCategoryEntity> childList(Long parentId);
+
+    CmsCategoryEntity detail(Long categoryId);
 }

@@ -48,10 +48,8 @@ public class SysOssController {
     @RequiresPermissions("sys:oss:all")
     public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = sysOssService.queryPage(params);
-
         return R.ok().put("page", page);
     }
-
 
     /**
      * 云存储配置信息
@@ -63,7 +61,6 @@ public class SysOssController {
 
         return R.ok().put("config", config);
     }
-
 
     /**
      * 保存云存储配置信息
@@ -86,10 +83,8 @@ public class SysOssController {
         }
 
         sysConfigService.updateValueByKey(KEY, JSON.toJSONString(config));
-
         return R.ok();
     }
-
 
     /**
      * 上传文件
@@ -119,7 +114,7 @@ public class SysOssController {
     }
 
     /**
-     * 上传图片文件七牛云
+     * 批量上传文件
      * @param files
      * @return
      */

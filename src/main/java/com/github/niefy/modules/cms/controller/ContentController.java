@@ -34,12 +34,11 @@ public class ContentController {
     }
 
     /**
-     * 添加文章
+     * 加载文章详情
      * @return
      */
     @GetMapping("/detail")
     public R detail(Long conentId){
-
         return R.ok();
     }
 
@@ -57,8 +56,8 @@ public class ContentController {
      * 编辑文章
      * @return
      */
-    @PostMapping("/edit")
-    public R edit(@RequestBody CmsContentEntity cmsContentEntity){
+    @PostMapping("/update")
+    public R update(@RequestBody CmsContentEntity cmsContentEntity){
         int updateResult = cmsContentService.updateContent(cmsContentEntity);
         return R.ok();
     }
@@ -68,7 +67,7 @@ public class ContentController {
      * @return
      */
     @PostMapping("/delete")
-    public R delete(Long[] congtentIds){
+    public R delete(Long[] ids){
         return R.ok();
     }
 
