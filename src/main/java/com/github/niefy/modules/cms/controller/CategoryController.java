@@ -8,6 +8,7 @@ import com.github.niefy.modules.cms.service.CmsCategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import java.util.Map;
 @RequestMapping("/cms/category")
 public class CategoryController {
 
+    @Resource
     private CmsCategoryService cmsCategoryService;
 
     /**
@@ -25,14 +27,23 @@ public class CategoryController {
      */
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
-        PageUtils page = cmsCategoryService.queryPage(params);
+        Integer pageNo = params.get("page")==null?1:Integer.valueOf((String)params.get("page"));
+        Integer limit = params.get("limit")==null?1:Integer.valueOf((String)params.get("limit"));
+
+        PageUtils page = cmsCategoryService.queryPageByParent(params ,pageNo, limit);
         return R.ok().put("page", page);
     }
 
     @GetMapping("/childList")
     public R childList(Long parentId) {
-        List<CmsCategoryEntity> childList = cmsCategoryService.childList(parentId);
-        return R.ok().put("childList", childList);
+        List<Map<String, Object>> childList = cmsCategoryService.childList(parentId);
+        return R.ok().put("page", childList);
+    }
+
+    @GetMapping("/treeList")
+    public R treeList(){
+        List<CmsCategoryEntity> treeList = cmsCategoryService.treeList();
+        return R.ok().put("page", treeList);
     }
 
     @PostMapping("/detail")

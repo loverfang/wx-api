@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.niefy.modules.cms.dao.CmsCategoryMapper">
+
+    <select id="queryPage" parameterType="java.util.Map" resultType="java.util.Map">
+        select
+            c.category_id as categoryId,
+            c.category_name as categoryName,
+            c.parent_id as parentId,
+            c.priority as priority,
+            c.remark,
+            p.category_name as parentName,
+            (select count(*) from cms_category as temp where temp.parent_id = c.category_id) as childCount
+        from
+            cms_category as c
+            left join cms_category as p on p.category_id = c.parent_id
+        <where>
+            c.parent_id = #{paramMap.parentId}
+            <if test="paramMap.categoryName !=null and paramMap.categoryName!=''">
+                and (c.category_name like concat('%',#{paramMap.categoryName},'%') or p.category_name like concat('%',#{paramMap.categoryName},'%'))
+            </if>
+        </where>
+
+    </select>
+
+    <select id="childList" parameterType="java.lang.Long" resultType="java.util.Map">
+        select
+            c.category_id as categoryId,
+            c.category_name as categoryName,
+            c.parent_id as parentId,
+            c.priority as priority,
+            c.remark,
+            p.category_name as parentName,
+            (select count(*) from cms_category as temp where temp.parent_id = c.category_id) as childCount
+        from
+            cms_category as c
+            left join cms_category as p on p.category_id = c.parent_id
+        where
+            c.parent_id = #{parentId}
+    </select>
+
+</mapper>

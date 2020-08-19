@@ -17,6 +17,16 @@ public interface CmsCategoryService extends IService<CmsCategoryEntity> {
      */
     PageUtils queryPage(Map<String, Object> params);
 
+
+    PageUtils queryPageByParent(Map<String, Object> params,Integer page, Integer limit);
+
+    /**
+     * 根据id查询其子类别
+     * @param parentId
+     * @return
+     */
+    List<Map<String, Object>> childList(Long parentId);
+
     /**
      * 添加模型
      * @param cmsCategoryEntity
@@ -38,12 +48,13 @@ public interface CmsCategoryService extends IService<CmsCategoryEntity> {
      */
     int batchUpdateStatus(List<Long> bannerIds, Integer status);
 
-    /**
-     * 根据id查询其子类别
-     * @param parentId
-     * @return
-     */
-    List<CmsCategoryEntity> childList(Long parentId);
 
     CmsCategoryEntity detail(Long categoryId);
+
+    /**
+     * 查询所有分类
+     * @return
+     */
+    List<CmsCategoryEntity> treeList();
+
 }

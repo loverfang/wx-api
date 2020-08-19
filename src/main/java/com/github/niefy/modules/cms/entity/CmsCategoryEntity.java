@@ -1,12 +1,15 @@
 package com.github.niefy.modules.cms.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @TableName("cms_category")
@@ -25,6 +28,12 @@ public class CmsCategoryEntity  implements Serializable {
     private Integer priority;
 
     private String remark;
+
+    @TableField(exist = false)
+    private String parentName;
+
+    @TableField(exist = false)
+    private List<CmsCategoryEntity> children = new ArrayList<>();
 
     public CmsCategoryEntity() { }
 

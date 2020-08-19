@@ -27,11 +27,12 @@ public class ContentController {
      */
     @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
-        Integer page = params.get("page")==null?1:Integer.valueOf((String)params.get("page"));
+        Integer pageNo = params.get("page")==null?1:Integer.valueOf((String)params.get("page"));
         Integer limit = params.get("limit")==null?1:Integer.valueOf((String)params.get("limit"));
-        PageUtils pageUtils = cmsContentService.queryPage(params, page, limit);
-        return R.ok().put("page", pageUtils);
+        PageUtils page = cmsContentService.queryPage(params, pageNo, limit);
+        return R.ok().put("page", page);
     }
+
 
     /**
      * 加载文章详情

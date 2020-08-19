@@ -37,8 +37,7 @@ public class ModelController {
 
     @GetMapping("/detail")
     public R add(Long modelId){
-        cmsModelService.detail(modelId);
-        return R.ok();
+        return R.ok().put("modelInfo", cmsModelService.detail(modelId));
     }
 
     @PostMapping("/add")

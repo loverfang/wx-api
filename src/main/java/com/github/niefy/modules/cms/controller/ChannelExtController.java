@@ -22,7 +22,7 @@ public class ChannelExtController {
      * @param cmsChannelExt
      * @return
      */
-    @PostMapping("/updateChannelExt")
+    @PostMapping("/update")
     public R updateChannelExt(@RequestBody CmsChannelExtEntity cmsChannelExt){
         cmsChannelExtService.updateChannelExt(cmsChannelExt);
         return R.ok();
@@ -33,7 +33,7 @@ public class ChannelExtController {
      * @param channelId
      * @return
      */
-    @GetMapping("/loadChannelExtDetail")
+    @GetMapping("/detail")
     public R loadChannelExtDetail(Long channelId){
         return R.ok().put("channelExt", cmsChannelExtService.loadChannelExt( channelId ));
     }
