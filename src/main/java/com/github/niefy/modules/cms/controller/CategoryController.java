@@ -46,9 +46,9 @@ public class CategoryController {
         return R.ok().put("page", treeList);
     }
 
-    @PostMapping("/detail")
+    @GetMapping("/detail")
     public R detail(Long categoryId){
-        return R.ok().put("data",cmsCategoryService.detail(categoryId));
+        return R.ok().put("category",cmsCategoryService.detail(categoryId));
     }
 
     @PostMapping("/add")
